@@ -5,9 +5,12 @@ class_name FloorStage
 ## Top of floor projection (-Z) faces Center Wall; +X faces Right Wall.
 ## Hosts the glowing geometric Sanctuary Mandala with live world-space touch ripples
 ## plus interactive Team Floor Touch Pads strictly within the 16:9 safe zone.
+##
+## All nodes live in FloorStage.tscn; the script binds to them and never moves hand-placed ones.
 
 const FLOOR_SHADER_PATH := "res://shaders/floor_mandala.gdshader"
 const MANDALA_SIZE := 6.4
+const MAX_TEAMS := 4
 
 var game_state: JeopardyGameState
 var audio: EphemeralAudioManager
@@ -23,8 +26,10 @@ var _ripple_age: float = 10.0
 func initialize(p_state: JeopardyGameState, p_audio: EphemeralAudioManager) -> void:
 	game_state = p_state
 	audio = p_audio
-	_build_floor_mandala()
-	_build_team_floor_pads()
+	if not _bind_nodes():
+		build_default_nodes(null)
+		_bind_nodes()
+	_wire_touch()
 	_connect_signals()
 	_refresh_team_pads()
 	_sync_state_visuals(game_state.phase)
@@ -44,63 +49,103 @@ func _connect_signals() -> void:
 	game_state.teams_updated.connect(func(_t, _idx) -> void: _refresh_team_pads())
 	game_state.timer_updated.connect(_on_timer_updated)
 	game_state.clue_resolved.connect(_on_clue_resolved)
-	InteractionBus.touch_ripple.connect(_on_bus_touch_ripple)
+	var bus := get_node_or_null(^"/root/InteractionBus")
+	if bus != null and not bus.is_connected(&"touch_ripple", _on_bus_touch_ripple):
+		bus.connect(&"touch_ripple", _on_bus_touch_ripple)
 
 
-func _build_floor_mandala() -> void:
+func _bind_nodes() -> bool:
+	_mandala_mesh = get_node_or_null("MandalaPlane") as MeshInstance3D
+	_mandala_mat = null
+	if _mandala_mesh != null:
+		_mandala_mat = _mandala_mesh.get_active_material(0) as ShaderMaterial
+	_floor_touch_body = get_node_or_null("FloorRippleSurface") as ImmersiveInteractable3D
+	_center_label = get_node_or_null("CenterLabel") as Label3D
+	_team_pads = CenterWallStage.collect_buttons(self, "FloorTeamPad_%d", range(MAX_TEAMS))
+	var required: Array[Node] = [_mandala_mesh, _floor_touch_body, _center_label]
+	return _team_pads.size() == MAX_TEAMS and CenterWallStage.all_present(required)
+
+
+func _wire_touch() -> void:
+	_floor_touch_body.tapped.connect(_on_floor_surface_tapped)
+	for i in range(_team_pads.size()):
+		_team_pads[i].tapped.connect(func(_b, hit_pos, _vp) -> void:
+			audio.play_sfx("tap", 0.06)
+			game_state.set_active_team(i)
+			var col: Color = game_state.teams[i]["color"] if i < game_state.teams.size() else Color.CYAN
+			trigger_floor_ripple(hit_pos, col)
+		)
+
+
+## Creates every missing stage node. Existing nodes are never touched, so manual edits survive.
+## Pass the scene root as owner_root to make the nodes saveable; pass null for a code-only instance.
+func build_default_nodes(owner_root: Node) -> void:
+	if not has_node("MandalaPlane"):
+		var mandala := _make_mandala()
+		mandala.name = "MandalaPlane"
+		add_child(mandala)
+		mandala.owner = owner_root
+
+	# Full-floor touch surface (slightly below pads so pads get hit first)
+	if not has_node("FloorRippleSurface"):
+		var body := ImmersiveInteractable3D.new()
+		body.name = "FloorRippleSurface"
+		body.local_cooldown_sec = 0.08
+		add_child(body)
+		body.owner = owner_root
+		var shape := BoxShape3D.new()
+		shape.size = Vector3(MANDALA_SIZE, 0.04, MANDALA_SIZE)
+		var col := CollisionShape3D.new()
+		col.name = "CollisionShape3D"
+		col.shape = shape
+		col.position = Vector3(0.0, -0.02, 0.0)
+		body.add_child(col)
+		col.owner = owner_root
+
+	# Upright center compass label (reads facing Center Wall)
+	if not has_node("CenterLabel"):
+		var label := CenterWallStage.ensure_label(
+			self,
+			owner_root,
+			"CenterLabel",
+			"EPHEMERAL\nSANCTUARY",
+			36,
+			Color(0.95, 0.99, 1.0, 1.0),
+			Vector3(0.0, 0.04, 0.0),
+			850.0,
+		)
+		label.pixel_size = 0.0022
+		label.render_priority = 7
+		label.rotation.x = -PI * 0.5
+
+	_build_team_floor_pads(owner_root)
+
+
+func _make_mandala() -> MeshInstance3D:
 	var quad := QuadMesh.new()
 	quad.size = Vector2(MANDALA_SIZE, MANDALA_SIZE)
-
-	_mandala_mesh = MeshInstance3D.new()
-	_mandala_mesh.name = "MandalaPlane"
-	_mandala_mesh.mesh = quad
+	var mandala := MeshInstance3D.new()
+	mandala.mesh = quad
 	# Rotate -90 deg X so local +Y points to -Z (Center wall) and +Z points UP (+Y)
-	_mandala_mesh.rotation.x = -PI * 0.5
-	_mandala_mesh.position = Vector3(0.0, 0.005, 0.0)
+	mandala.rotation.x = -PI * 0.5
+	mandala.position = Vector3(0.0, 0.005, 0.0)
 
 	if ResourceLoader.exists(FLOOR_SHADER_PATH):
 		var shader := load(FLOOR_SHADER_PATH) as Shader
 		if shader != null:
-			_mandala_mat = ShaderMaterial.new()
-			_mandala_mat.shader = shader
-			_mandala_mat.render_priority = -8
-			_mandala_mesh.material_override = _mandala_mat
-	if _mandala_mat == null:
+			var mat := ShaderMaterial.new()
+			mat.shader = shader
+			mat.render_priority = -8
+			mandala.material_override = mat
+	if mandala.material_override == null:
 		var fallback := StandardMaterial3D.new()
 		fallback.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		fallback.albedo_color = Color(0.03, 0.06, 0.14, 1.0)
-		_mandala_mesh.material_override = fallback
-
-	add_child(_mandala_mesh)
-
-	# Full-floor touch surface (slightly below pads so pads get hit first)
-	_floor_touch_body = ImmersiveInteractable3D.new()
-	_floor_touch_body.name = "FloorRippleSurface"
-	_floor_touch_body.local_cooldown_sec = 0.08
-	var col := CollisionShape3D.new()
-	var shape := BoxShape3D.new()
-	shape.size = Vector3(MANDALA_SIZE, 0.04, MANDALA_SIZE)
-	col.shape = shape
-	col.position = Vector3(0.0, -0.02, 0.0)
-	_floor_touch_body.add_child(col)
-	_floor_touch_body.tapped.connect(_on_floor_surface_tapped)
-	add_child(_floor_touch_body)
-
-	# Upright center compass label (reads facing Center Wall)
-	_center_label = CenterWallStage._make_label(
-		"SANCTUARY",
-		36,
-		Color(0.95, 0.99, 1.0, 1.0),
-		Vector3(0.0, 0.04, 0.0),
-		850.0,
-	)
-	_center_label.pixel_size = 0.0022
-	_center_label.render_priority = 7
-	_center_label.rotation.x = -PI * 0.5
-	add_child(_center_label)
+		mandala.material_override = fallback
+	return mandala
 
 
-func _build_team_floor_pads() -> void:
+func _build_team_floor_pads(owner_root: Node) -> void:
 	# Strictly inside 16:9 floor safe bounds: x in [-1.25, +1.25], z in [-0.70, +0.70]
 	var pad_positions: Array[Vector3] = [
 		Vector3(-0.96, 0.035, -0.44),  # Front-Left
@@ -108,32 +153,33 @@ func _build_team_floor_pads() -> void:
 		Vector3(-0.96, 0.035, 0.44),   # Back-Left
 		Vector3(0.96, 0.035, 0.44),    # Back-Right
 	]
-	_team_pads.clear()
-	for i in range(4):
-		var pad := GlassButton3D.new()
-		pad.name = "FloorTeamPad_%d" % i
-		pad.position = pad_positions[i]
+	for i in range(MAX_TEAMS):
+		if has_node("FloorTeamPad_%d" % i):
+			continue
+		var preset: Dictionary = JeopardyGameState.TEAM_PRESETS[i]
+		var col: Color = preset["color"]
+		var pad := CenterWallStage.ensure_button(self, owner_root, "FloorTeamPad_%d" % i, pad_positions[i], {
+			"panel_size": Vector3(0.74, 0.34, 0.03),
+			"primary_text": str(preset["name"]),
+			"secondary_text": "$0",
+			"primary_font_size": 36,
+			"secondary_font_size": 28,
+			"base_color": _pad_base_color(col, i == 0),
+			"rim_color": col,
+			"accent_color": Color(1.0, 0.86, 0.44),
+			"text_color": Color(0.98, 0.99, 1.0),
+			"highlight_amount": 1.0 if i == 0 else 0.0,
+			"enable_idle_float": false,
+			"panel_render_priority": 3,
+			"label_render_priority": 6,
+		})
 		pad.rotation.x = -PI * 0.5
-		pad.enable_idle_float = false
-		pad.configure(
-			Vector3(0.74, 0.34, 0.03),
-			"TEAM %d" % (i + 1),
-			"TAP TO BUZZ",
-			36,
-			Color(0.04, 0.10, 0.24, 0.94),
-			Color(0.36, 0.88, 1.0, 1.0),
-		)
-		pad.secondary_font_size = 28
-		pad.set_render_priorities(3, 6)
-		var idx := i
-		pad.tapped.connect(func(_b, hit_pos, _vp) -> void:
-			audio.play_sfx("tap", 0.06)
-			game_state.set_active_team(idx)
-			var col: Color = game_state.teams[idx]["color"] if idx < game_state.teams.size() else Color.CYAN
-			trigger_floor_ripple(hit_pos, col)
-		)
-		add_child(pad)
-		_team_pads.append(pad)
+
+
+func _pad_base_color(col: Color, active: bool) -> Color:
+	if active:
+		return Color(col.r * 0.18, col.g * 0.20, col.b * 0.30, 0.90)
+	return Color(0.05, 0.11, 0.24, 0.85)
 
 
 func _on_floor_surface_tapped(_body: ImmersiveInteractable3D, hit_pos: Vector3, _vp: int) -> void:
@@ -149,8 +195,13 @@ func _on_bus_touch_ripple(world_pos: Vector3, _normal: Vector3, viewport_index: 
 func trigger_floor_ripple(world_pos: Vector3, color: Color) -> void:
 	if _mandala_mat == null:
 		return
-	var u := clampf((world_pos.x / MANDALA_SIZE) + 0.5, 0.0, 1.0)
-	var v := clampf((world_pos.z / MANDALA_SIZE) + 0.5, 0.0, 1.0)
+	# Measured in the mandala's own plane so ripples stay under the finger if it is moved or resized.
+	var local_pos := _mandala_mesh.to_local(world_pos)
+	var plane_size := Vector2(MANDALA_SIZE, MANDALA_SIZE)
+	if _mandala_mesh.mesh is QuadMesh:
+		plane_size = (_mandala_mesh.mesh as QuadMesh).size
+	var u := clampf(0.5 + local_pos.x / plane_size.x, 0.0, 1.0)
+	var v := clampf(0.5 - local_pos.y / plane_size.y, 0.0, 1.0)
 	_ripple_age = 0.0
 	_mandala_mat.set_shader_parameter("ripple_uv", Vector2(u, v))
 	_mandala_mat.set_shader_parameter("ripple_age", 0.0)
@@ -170,8 +221,7 @@ func _refresh_team_pads() -> void:
 		var active := (i == game_state.active_team_index)
 		pad.set_texts(str(t["name"]), EphemeralTheme.format_money(int(t["score"])))
 		pad.set_highlighted(active, 1.0)
-		var base := Color(col.r * 0.18, col.g * 0.20, col.b * 0.30, 0.90) if active else Color(0.05, 0.11, 0.24, 0.85)
-		pad.set_palette(base, col, Color(1.0, 0.86, 0.44), Color(0.98, 0.99, 1.0))
+		pad.set_palette(_pad_base_color(col, active), col, Color(1.0, 0.86, 0.44), Color(0.98, 0.99, 1.0))
 
 
 func set_floor_interactions_enabled(enabled: bool) -> void:

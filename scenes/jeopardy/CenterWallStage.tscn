@@ -1,0 +1,1174 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/jeopardy/center_wall_stage.gd" id="1_437kl"]
+[ext_resource type="FontFile" path="res://assets/fonts/display_font.ttf" id="2_rksla"]
+[ext_resource type="FontFile" path="res://assets/fonts/ui_font.ttf" id="3_4drbl"]
+[ext_resource type="Script" path="res://scripts/core/glass_button_3d.gd" id="4_q3gdo"]
+[ext_resource type="Script" path="res://scripts/jeopardy/jeopardy_tile_3d.gd" id="5_do8np"]
+
+[sub_resource type="FontVariation" id="FontVariation_h2bb0"]
+base_font = ExtResource("2_rksla")
+variation_opentype = {
+2003265652: 750
+}
+variation_embolden = 0.08
+
+[sub_resource type="FontVariation" id="FontVariation_gmyp2"]
+base_font = ExtResource("3_4drbl")
+variation_opentype = {
+2003265652: 700
+}
+variation_embolden = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qwny3"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.12, 0.2, 0.34, 0.55)
+
+[sub_resource type="BoxMesh" id="BoxMesh_473qo"]
+material = SubResource("StandardMaterial3D_qwny3")
+size = Vector3(5.6, 0.065, 0.03)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yur8s"]
+shading_mode = 0
+albedo_color = Color(0.32, 0.9, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r6qwu"]
+material = SubResource("StandardMaterial3D_yur8s")
+size = Vector3(5.6, 0.068, 0.04)
+
+[node name="CenterWallStage" type="Node3D" unique_id=929646817]
+script = ExtResource("1_437kl")
+
+[node name="SetupGroup" type="Node3D" parent="." unique_id=860397636]
+visible = false
+
+[node name="SetupTitle" type="Label3D" parent="SetupGroup" unique_id=89183096]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.95, 0.99, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "EPHEMERAL JEOPARDY"
+font = SubResource("FontVariation_h2bb0")
+font_size = 98
+outline_size = 10
+autowrap_mode = 3
+width = 2200.0
+
+[node name="SetupTagline" type="Label3D" parent="SetupGroup" unique_id=647415172]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.93, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.56, 0.88, 0.98, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "SINGLE-TOUCH 360° SANCTUARY  •  TAP ANY LUMINOUS MONOLITH"
+font = SubResource("FontVariation_gmyp2")
+outline_size = 10
+autowrap_mode = 3
+width = 2200.0
+
+[node name="PackSelectorButton" type="StaticBody3D" parent="SetupGroup" unique_id=1476988782]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(5.6, 0.56, 0.09)
+primary_text = "PACK: EPHEMERAL WONDERS"
+secondary_text = "TAP TO SWITCH QUESTION PACK"
+primary_font_size = 52
+base_color = Color(0.06, 0.14, 0.29, 0.9)
+rim_color = Color(0.36078432, 0.88235295, 0.9019608, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="PackDescription" type="Label3D" parent="SetupGroup" unique_id=1574173430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.8, 0.9, 0.98, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "Light, cosmos, ancient echoes & living marvels"
+font = SubResource("FontVariation_gmyp2")
+outline_size = 10
+autowrap_mode = 3
+width = 1850.0
+
+[node name="TeamsLabel" type="Label3D" parent="SetupGroup" unique_id=1512148554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.45, -0.26, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.68, 0.86, 0.96, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "PLAYERS / TEAMS"
+font = SubResource("FontVariation_gmyp2")
+font_size = 28
+outline_size = 10
+autowrap_mode = 3
+width = 900.0
+
+[node name="TeamCount_1" type="StaticBody3D" parent="SetupGroup" unique_id=923148108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.65, -0.58, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(0.7, 0.42, 0.08)
+primary_text = "1"
+secondary_text = "SOLO"
+primary_font_size = 46
+base_color = Color(0.06, 0.13, 0.26, 0.85)
+rim_color = Color(0.32, 0.78, 0.95, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="TeamCount_2" type="StaticBody3D" parent="SetupGroup" unique_id=960804823]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85, -0.58, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(0.7, 0.42, 0.08)
+primary_text = "2"
+secondary_text = "TEAMS"
+primary_font_size = 46
+base_color = Color(0.11, 0.27, 0.39, 0.92)
+rim_color = Color(1, 0.84, 0.44, 1)
+accent_color = Color(0.4, 0.95, 1, 1)
+highlight_amount = 1.0
+metadata/_edit_group_ = true
+
+[node name="TeamCount_3" type="StaticBody3D" parent="SetupGroup" unique_id=1700172793]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, -0.58, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(0.7, 0.42, 0.08)
+primary_text = "3"
+secondary_text = "TEAMS"
+primary_font_size = 46
+base_color = Color(0.06, 0.13, 0.26, 0.85)
+rim_color = Color(0.32, 0.78, 0.95, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="TeamCount_4" type="StaticBody3D" parent="SetupGroup" unique_id=1969687895]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.58, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(0.7, 0.42, 0.08)
+primary_text = "4"
+secondary_text = "TEAMS"
+primary_font_size = 46
+base_color = Color(0.06, 0.13, 0.26, 0.85)
+rim_color = Color(0.32, 0.78, 0.95, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="ModeLabel" type="Label3D" parent="SetupGroup" unique_id=1829833822]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, -0.26, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.68, 0.86, 0.96, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "INTERACTION MODE"
+font = SubResource("FontVariation_gmyp2")
+font_size = 28
+outline_size = 10
+autowrap_mode = 3
+width = 950.0
+
+[node name="ModeToggleButton" type="StaticBody3D" parent="SetupGroup" unique_id=154167889]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, -0.58, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(2.85, 0.42, 0.08)
+primary_text = "SINGLE-TOUCH QUIZ"
+secondary_text = "4 ANSWER CARDS • TAP TO SWITCH"
+primary_font_size = 36
+base_color = Color(0.09, 0.14, 0.3, 0.88)
+rim_color = Color(0.72, 0.56, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="BeginGameButton" type="StaticBody3D" parent="SetupGroup" unique_id=1615900083]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.16, 0.06)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(3.4, 0.5, 0.1)
+primary_text = "ENTER THE SANCTUARY"
+secondary_text = "TAP TO ILLUMINATE THE BOARD"
+primary_font_size = 48
+base_color = Color(0.08, 0.24, 0.34, 0.92)
+rim_color = Color(0.98, 0.84, 0.44, 1)
+accent_color = Color(0.36, 0.96, 0.88, 1)
+highlight_amount = 0.65
+metadata/_edit_group_ = true
+
+[node name="BoardGroup" type="Node3D" parent="." unique_id=1158895209]
+
+[node name="BoardBanner" type="Label3D" parent="BoardGroup" unique_id=328228605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0.04)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.92, 0.97, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "EPHEMERAL WONDERS  •  SELECT A MONOLITH"
+font = SubResource("FontVariation_gmyp2")
+font_size = 40
+outline_size = 10
+autowrap_mode = 3
+width = 2150.0
+
+[node name="CategoryHeader_0" type="StaticBody3D" parent="BoardGroup" unique_id=954683742]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.58, 0.99, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.18, 0.39, 0.07)
+primary_text = "LIGHT &
+OPTICS"
+primary_font_size = 36
+base_color = Color(0.09, 0.17, 0.34, 0.92)
+rim_color = Color(0.36078432, 0.88235295, 0.9019608, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="Tile_0_0" type="StaticBody3D" parent="BoardGroup" unique_id=1001276726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.58, 0.51, 0)
+script = ExtResource("5_do8np")
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$200"
+primary_font_size = 68
+base_color = Color(0.055, 0.11, 0.25, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.2
+metadata/_edit_group_ = true
+
+[node name="Tile_0_1" type="StaticBody3D" parent="BoardGroup" unique_id=1816979848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.58, 0.08, 0)
+script = ExtResource("5_do8np")
+row_idx = 1
+clue_value = 400
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$400"
+primary_font_size = 68
+base_color = Color(0.061, 0.1175, 0.265, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.28
+metadata/_edit_group_ = true
+
+[node name="Tile_0_2" type="StaticBody3D" parent="BoardGroup" unique_id=940496300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.58, -0.35, 0)
+script = ExtResource("5_do8np")
+row_idx = 2
+clue_value = 600
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$600"
+primary_font_size = 68
+base_color = Color(0.067, 0.125, 0.28, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.36
+metadata/_edit_group_ = true
+
+[node name="Tile_0_3" type="StaticBody3D" parent="BoardGroup" unique_id=430369411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.58, -0.78, 0)
+script = ExtResource("5_do8np")
+row_idx = 3
+clue_value = 800
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$800"
+primary_font_size = 68
+base_color = Color(0.073, 0.1325, 0.295, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.44
+metadata/_edit_group_ = true
+
+[node name="Tile_0_4" type="StaticBody3D" parent="BoardGroup" unique_id=492215377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.58, -1.21, 0)
+script = ExtResource("5_do8np")
+row_idx = 4
+clue_value = 1000
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$1000"
+primary_font_size = 68
+base_color = Color(0.079, 0.14, 0.31, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.52
+metadata/_edit_group_ = true
+
+[node name="CategoryHeader_1" type="StaticBody3D" parent="BoardGroup" unique_id=260491247]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.29, 0.99, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.18, 0.39, 0.07)
+primary_text = "COSMIC
+ECHOES"
+primary_font_size = 36
+base_color = Color(0.09, 0.17, 0.34, 0.92)
+rim_color = Color(0.36078432, 0.88235295, 0.9019608, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="Tile_1_0" type="StaticBody3D" parent="BoardGroup" unique_id=1028283156]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.29, 0.51, 0)
+script = ExtResource("5_do8np")
+cat_idx = 1
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$200"
+primary_font_size = 68
+base_color = Color(0.055, 0.11, 0.25, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.31
+metadata/_edit_group_ = true
+
+[node name="Tile_1_1" type="StaticBody3D" parent="BoardGroup" unique_id=920138748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.29, 0.08, 0)
+script = ExtResource("5_do8np")
+cat_idx = 1
+row_idx = 1
+clue_value = 400
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$400"
+primary_font_size = 68
+base_color = Color(0.061, 0.1175, 0.265, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.3900000000000001
+metadata/_edit_group_ = true
+
+[node name="Tile_1_2" type="StaticBody3D" parent="BoardGroup" unique_id=690421367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.29, -0.35, 0)
+script = ExtResource("5_do8np")
+cat_idx = 1
+row_idx = 2
+clue_value = 600
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$600"
+primary_font_size = 68
+base_color = Color(0.067, 0.125, 0.28, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.47
+metadata/_edit_group_ = true
+
+[node name="Tile_1_3" type="StaticBody3D" parent="BoardGroup" unique_id=628160592]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.29, -0.78, 0)
+script = ExtResource("5_do8np")
+cat_idx = 1
+row_idx = 3
+clue_value = 800
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$800"
+primary_font_size = 68
+base_color = Color(0.073, 0.1325, 0.295, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.55
+metadata/_edit_group_ = true
+
+[node name="Tile_1_4" type="StaticBody3D" parent="BoardGroup" unique_id=770690270]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.29, -1.21, 0)
+script = ExtResource("5_do8np")
+cat_idx = 1
+row_idx = 4
+clue_value = 1000
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$1000"
+primary_font_size = 68
+base_color = Color(0.079, 0.14, 0.31, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.6300000000000001
+metadata/_edit_group_ = true
+
+[node name="CategoryHeader_2" type="StaticBody3D" parent="BoardGroup" unique_id=867607424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.99, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.18, 0.39, 0.07)
+primary_text = "ANCIENT
+MYSTERIES"
+primary_font_size = 36
+base_color = Color(0.09, 0.17, 0.34, 0.92)
+rim_color = Color(0.36078432, 0.88235295, 0.9019608, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="Tile_2_0" type="StaticBody3D" parent="BoardGroup" unique_id=458351700]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, 0)
+script = ExtResource("5_do8np")
+cat_idx = 2
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$200"
+primary_font_size = 68
+base_color = Color(0.055, 0.11, 0.25, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.42
+metadata/_edit_group_ = true
+
+[node name="Tile_2_1" type="StaticBody3D" parent="BoardGroup" unique_id=899598488]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+script = ExtResource("5_do8np")
+cat_idx = 2
+row_idx = 1
+clue_value = 400
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$400"
+primary_font_size = 68
+base_color = Color(0.061, 0.1175, 0.265, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.5
+metadata/_edit_group_ = true
+
+[node name="Tile_2_2" type="StaticBody3D" parent="BoardGroup" unique_id=419299841]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35, 0)
+script = ExtResource("5_do8np")
+cat_idx = 2
+row_idx = 2
+clue_value = 600
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$600"
+primary_font_size = 68
+base_color = Color(0.067, 0.125, 0.28, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.58
+metadata/_edit_group_ = true
+
+[node name="Tile_2_3" type="StaticBody3D" parent="BoardGroup" unique_id=1868094540]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.78, 0)
+script = ExtResource("5_do8np")
+cat_idx = 2
+row_idx = 3
+clue_value = 800
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$800"
+primary_font_size = 68
+base_color = Color(0.073, 0.1325, 0.295, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.6600000000000001
+metadata/_edit_group_ = true
+
+[node name="Tile_2_4" type="StaticBody3D" parent="BoardGroup" unique_id=166693183]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.21, 0)
+script = ExtResource("5_do8np")
+cat_idx = 2
+row_idx = 4
+clue_value = 1000
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$1000"
+primary_font_size = 68
+base_color = Color(0.079, 0.14, 0.31, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.74
+metadata/_edit_group_ = true
+
+[node name="CategoryHeader_3" type="StaticBody3D" parent="BoardGroup" unique_id=827005847]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29, 0.99, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.18, 0.39, 0.07)
+primary_text = "LIVING
+EARTH"
+primary_font_size = 36
+base_color = Color(0.09, 0.17, 0.34, 0.92)
+rim_color = Color(0.36078432, 0.88235295, 0.9019608, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="Tile_3_0" type="StaticBody3D" parent="BoardGroup" unique_id=1882112933]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29, 0.51, 0)
+script = ExtResource("5_do8np")
+cat_idx = 3
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$200"
+primary_font_size = 68
+base_color = Color(0.055, 0.11, 0.25, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.53
+metadata/_edit_group_ = true
+
+[node name="Tile_3_1" type="StaticBody3D" parent="BoardGroup" unique_id=2005661119]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29, 0.08, 0)
+script = ExtResource("5_do8np")
+cat_idx = 3
+row_idx = 1
+clue_value = 400
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$400"
+primary_font_size = 68
+base_color = Color(0.061, 0.1175, 0.265, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.61
+metadata/_edit_group_ = true
+
+[node name="Tile_3_2" type="StaticBody3D" parent="BoardGroup" unique_id=1262986658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29, -0.35, 0)
+script = ExtResource("5_do8np")
+cat_idx = 3
+row_idx = 2
+clue_value = 600
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$600"
+primary_font_size = 68
+base_color = Color(0.067, 0.125, 0.28, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.69
+metadata/_edit_group_ = true
+
+[node name="Tile_3_3" type="StaticBody3D" parent="BoardGroup" unique_id=2122192177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29, -0.78, 0)
+script = ExtResource("5_do8np")
+cat_idx = 3
+row_idx = 3
+clue_value = 800
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$800"
+primary_font_size = 68
+base_color = Color(0.073, 0.1325, 0.295, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.77
+metadata/_edit_group_ = true
+
+[node name="Tile_3_4" type="StaticBody3D" parent="BoardGroup" unique_id=822954826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29, -1.21, 0)
+script = ExtResource("5_do8np")
+cat_idx = 3
+row_idx = 4
+clue_value = 1000
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$1000"
+primary_font_size = 68
+base_color = Color(0.079, 0.14, 0.31, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.85
+metadata/_edit_group_ = true
+
+[node name="CategoryHeader_4" type="StaticBody3D" parent="BoardGroup" unique_id=404870177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.58, 0.99, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.18, 0.39, 0.07)
+primary_text = "SOUND &
+TIME"
+primary_font_size = 36
+base_color = Color(0.09, 0.17, 0.34, 0.92)
+rim_color = Color(0.36078432, 0.88235295, 0.9019608, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="Tile_4_0" type="StaticBody3D" parent="BoardGroup" unique_id=2090037254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.58, 0.51, 0)
+script = ExtResource("5_do8np")
+cat_idx = 4
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$200"
+primary_font_size = 68
+base_color = Color(0.055, 0.11, 0.25, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.6400000000000001
+metadata/_edit_group_ = true
+
+[node name="Tile_4_1" type="StaticBody3D" parent="BoardGroup" unique_id=1615045085]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.58, 0.08, 0)
+script = ExtResource("5_do8np")
+cat_idx = 4
+row_idx = 1
+clue_value = 400
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$400"
+primary_font_size = 68
+base_color = Color(0.061, 0.1175, 0.265, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.72
+metadata/_edit_group_ = true
+
+[node name="Tile_4_2" type="StaticBody3D" parent="BoardGroup" unique_id=1142852956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.58, -0.35, 0)
+script = ExtResource("5_do8np")
+cat_idx = 4
+row_idx = 2
+clue_value = 600
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$600"
+primary_font_size = 68
+base_color = Color(0.067, 0.125, 0.28, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.8
+metadata/_edit_group_ = true
+
+[node name="Tile_4_3" type="StaticBody3D" parent="BoardGroup" unique_id=945825217]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.58, -0.78, 0)
+script = ExtResource("5_do8np")
+cat_idx = 4
+row_idx = 3
+clue_value = 800
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$800"
+primary_font_size = 68
+base_color = Color(0.073, 0.1325, 0.295, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.8800000000000001
+metadata/_edit_group_ = true
+
+[node name="Tile_4_4" type="StaticBody3D" parent="BoardGroup" unique_id=537525404]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.58, -1.21, 0)
+script = ExtResource("5_do8np")
+cat_idx = 4
+row_idx = 4
+clue_value = 1000
+panel_size = Vector3(1.18, 0.36, 0.08)
+primary_text = "$1000"
+primary_font_size = 68
+base_color = Color(0.079, 0.14, 0.31, 0.88)
+rim_color = Color(0.40093136, 0.89029413, 0.9460784, 1)
+accent_color = Color(1, 0.86, 0.46, 1)
+text_color = Color(1, 0.92, 0.66, 1)
+float_amplitude = 0.011
+float_speed = 1.96
+metadata/_edit_group_ = true
+
+[node name="WagerGroup" type="Node3D" parent="." unique_id=98995025]
+visible = false
+
+[node name="WagerTitle" type="Label3D" parent="WagerGroup" unique_id=663879392]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(1, 0.86, 0.45, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "EPHEMERAL SURGE • DAILY DOUBLE"
+font = SubResource("FontVariation_h2bb0")
+font_size = 70
+outline_size = 10
+autowrap_mode = 3
+width = 2150.0
+
+[node name="WagerSubtitle" type="Label3D" parent="WagerGroup" unique_id=1926059865]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.76, 0.94, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "AURORA — CHOOSE YOUR WAGER"
+font = SubResource("FontVariation_gmyp2")
+font_size = 40
+outline_size = 10
+autowrap_mode = 3
+width = 2100.0
+
+[node name="WagerBackdrop" type="StaticBody3D" parent="WagerGroup" unique_id=844720765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, -0.02)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(3.4, 0.66, 0.08)
+primary_text = ""
+primary_font_size = 40
+base_color = Color(0.11, 0.08, 0.26, 0.9)
+rim_color = Color(1, 0.78, 0.36, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="WagerAmount" type="Label3D" parent="WagerGroup" unique_id=697774361]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(1, 0.94, 0.68, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "$500"
+font = SubResource("FontVariation_h2bb0")
+font_size = 112
+outline_size = 10
+autowrap_mode = 3
+width = 1600.0
+
+[node name="WagerRange" type="Label3D" parent="WagerGroup" unique_id=1283695983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.75, 0.86, 0.96, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "MIN $200  •  MAX $1000"
+font = SubResource("FontVariation_gmyp2")
+font_size = 28
+outline_size = 10
+autowrap_mode = 3
+width = 1600.0
+
+[node name="WagerPreset_25" type="StaticBody3D" parent="WagerGroup" unique_id=318370175]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, -0.34, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.32, 0.42, 0.08)
+primary_text = "25%"
+primary_font_size = 46
+base_color = Color(0.1, 0.14, 0.32, 0.9)
+rim_color = Color(0.84, 0.56, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="WagerPreset_50" type="StaticBody3D" parent="WagerGroup" unique_id=1254695677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, -0.34, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.32, 0.42, 0.08)
+primary_text = "50%"
+primary_font_size = 46
+base_color = Color(0.1, 0.14, 0.32, 0.9)
+rim_color = Color(0.84, 0.56, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="WagerPreset_75" type="StaticBody3D" parent="WagerGroup" unique_id=1109006433]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, -0.34, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.32, 0.42, 0.08)
+primary_text = "75%"
+primary_font_size = 46
+base_color = Color(0.1, 0.14, 0.32, 0.9)
+rim_color = Color(0.84, 0.56, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="WagerPreset_AllIn" type="StaticBody3D" parent="WagerGroup" unique_id=1881905800]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, -0.34, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.32, 0.42, 0.08)
+primary_text = "ALL IN"
+primary_font_size = 46
+base_color = Color(0.1, 0.14, 0.32, 0.9)
+rim_color = Color(0.84, 0.56, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="WagerMinusButton" type="StaticBody3D" parent="WagerGroup" unique_id=1531314029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15, -0.96, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.3, 0.48, 0.08)
+primary_text = "- $200"
+primary_font_size = 46
+base_color = Color(0.14, 0.11, 0.26, 0.9)
+rim_color = Color(0.55, 0.78, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="LockWagerButton" type="StaticBody3D" parent="WagerGroup" unique_id=778584941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.96, 0.06)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(2.65, 0.52, 0.1)
+primary_text = "LOCK WAGER"
+secondary_text = "REVEAL CLUE"
+primary_font_size = 48
+base_color = Color(0.16, 0.24, 0.34, 0.92)
+rim_color = Color(1, 0.84, 0.42, 1)
+highlight_amount = 0.7
+metadata/_edit_group_ = true
+
+[node name="WagerPlusButton" type="StaticBody3D" parent="WagerGroup" unique_id=776654805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15, -0.96, 0)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.3, 0.48, 0.08)
+primary_text = "+ $200"
+primary_font_size = 46
+base_color = Color(0.14, 0.11, 0.26, 0.9)
+rim_color = Color(0.55, 0.78, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="ClueGroup" type="Node3D" parent="." unique_id=1592042870]
+visible = false
+
+[node name="ClueHeader" type="Label3D" parent="ClueGroup" unique_id=440859807]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(1, 0.86, 0.48, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "LIGHT & OPTICS  •  $200"
+font = SubResource("FontVariation_gmyp2")
+font_size = 46
+outline_size = 10
+autowrap_mode = 3
+width = 2150.0
+
+[node name="ClueTimerBarBg" type="MeshInstance3D" parent="ClueGroup" unique_id=31190954]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12, 0)
+mesh = SubResource("BoxMesh_473qo")
+
+[node name="ClueTimerBarFill" type="MeshInstance3D" parent="ClueGroup" unique_id=715795998]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12, 0.015)
+mesh = SubResource("BoxMesh_r6qwu")
+
+[node name="ClueTimerText" type="Label3D" parent="ClueGroup" unique_id=1229264292]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.05, 1.12, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.75, 0.94, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "25s"
+font = SubResource("FontVariation_gmyp2")
+font_size = 30
+outline_size = 10
+autowrap_mode = 3
+width = 300.0
+
+[node name="ClueMonolithBackdrop" type="StaticBody3D" parent="ClueGroup" unique_id=1130124782]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, -0.02)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(6.25, 1, 0.08)
+primary_text = ""
+primary_font_size = 40
+base_color = Color(0.05, 0.11, 0.24, 0.9)
+rim_color = Color(0.38, 0.88, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="ClueText" type="Label3D" parent="ClueGroup" unique_id=1968503664]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.97, 0.99, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "This arc of colors appears when sunlight is refracted and reflected inside falling raindrops."
+font = SubResource("FontVariation_gmyp2")
+font_size = 60
+outline_size = 10
+autowrap_mode = 3
+width = 1820.0
+
+[node name="QuizChoices" type="Node3D" parent="ClueGroup" unique_id=2118119746]
+visible = false
+
+[node name="Choice_A" type="StaticBody3D" parent="ClueGroup/QuizChoices" unique_id=399521463]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.58, -0.34, 0.04)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(2.96, 0.48, 0.09)
+primary_text = "A) A mirage"
+primary_font_size = 44
+base_color = Color(0.07, 0.15, 0.3, 0.9)
+rim_color = Color(0.36, 0.86, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="Choice_B" type="StaticBody3D" parent="ClueGroup/QuizChoices" unique_id=1633081618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58, -0.34, 0.04)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(2.96, 0.48, 0.09)
+primary_text = "B) An aurora"
+primary_font_size = 44
+base_color = Color(0.07, 0.15, 0.3, 0.9)
+rim_color = Color(0.36, 0.86, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="Choice_C" type="StaticBody3D" parent="ClueGroup/QuizChoices" unique_id=359581066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.58, -0.94, 0.04)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(2.96, 0.48, 0.09)
+primary_text = "C) A rainbow"
+primary_font_size = 44
+base_color = Color(0.07, 0.15, 0.3, 0.9)
+rim_color = Color(0.36, 0.86, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="Choice_D" type="StaticBody3D" parent="ClueGroup/QuizChoices" unique_id=1794223700]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58, -0.94, 0.04)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(2.96, 0.48, 0.09)
+primary_text = "D) A sun halo"
+primary_font_size = 44
+base_color = Color(0.07, 0.15, 0.3, 0.9)
+rim_color = Color(0.36, 0.86, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="HostControls" type="Node3D" parent="ClueGroup" unique_id=16592249]
+visible = false
+
+[node name="RevealAnswerButton" type="StaticBody3D" parent="ClueGroup/HostControls" unique_id=1242777008]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0.05)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(3.4, 0.5, 0.09)
+primary_text = "REVEAL ANSWER"
+secondary_text = "HOST MODE • SINGLE TAP"
+primary_font_size = 48
+base_color = Color(0.09, 0.18, 0.34, 0.92)
+rim_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="HostAnswer" type="Label3D" parent="ClueGroup/HostControls" unique_id=779216686]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34, 0.06)
+visible = false
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(1, 0.92, 0.62, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "What is a rainbow?"
+font = SubResource("FontVariation_gmyp2")
+font_size = 52
+outline_size = 10
+autowrap_mode = 3
+width = 1950.0
+
+[node name="JudgeControls" type="Node3D" parent="ClueGroup/HostControls" unique_id=528119141]
+
+[node name="JudgeCorrectButton" type="StaticBody3D" parent="ClueGroup/HostControls/JudgeControls" unique_id=202991275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.05, -0.96, 0.04)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.85, 0.46, 0.09)
+primary_text = "CORRECT"
+secondary_text = "+ POINTS"
+primary_font_size = 42
+base_color = Color(0.06, 0.24, 0.18, 0.92)
+rim_color = Color(0.32, 0.96, 0.68, 1)
+metadata/_edit_group_ = true
+
+[node name="JudgePassButton" type="StaticBody3D" parent="ClueGroup/HostControls/JudgeControls" unique_id=824956820]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.96, 0.04)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.85, 0.46, 0.09)
+primary_text = "PASS / SKIP"
+secondary_text = "NO PENALTY"
+primary_font_size = 40
+base_color = Color(0.11, 0.15, 0.28, 0.9)
+rim_color = Color(0.62, 0.8, 0.96, 1)
+metadata/_edit_group_ = true
+
+[node name="JudgeIncorrectButton" type="StaticBody3D" parent="ClueGroup/HostControls/JudgeControls" unique_id=1101669222]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.05, -0.96, 0.04)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(1.85, 0.46, 0.09)
+primary_text = "INCORRECT"
+secondary_text = "- POINTS"
+primary_font_size = 42
+base_color = Color(0.26, 0.09, 0.16, 0.92)
+rim_color = Color(1, 0.45, 0.58, 1)
+metadata/_edit_group_ = true
+
+[node name="ResultOverlay" type="Node3D" parent="ClueGroup" unique_id=196048520]
+visible = false
+
+[node name="ResultOutcome" type="Label3D" parent="ClueGroup/ResultOverlay" unique_id=1896518430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.42, 0.98, 0.74, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "AURORA  •  CORRECT!  +$200"
+font = SubResource("FontVariation_h2bb0")
+font_size = 66
+outline_size = 10
+autowrap_mode = 3
+width = 1950.0
+
+[node name="ResultAnswer" type="Label3D" parent="ClueGroup/ResultOverlay" unique_id=2007244988]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.47, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(1, 0.92, 0.64, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "What is a rainbow?"
+font = SubResource("FontVariation_gmyp2")
+font_size = 46
+outline_size = 10
+autowrap_mode = 3
+width = 1950.0
+
+[node name="ResultFact" type="Label3D" parent="ClueGroup/ResultOverlay" unique_id=1220452835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.71, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.8, 0.9, 0.98, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "No two people see quite the same rainbow; each eye catches light from different drops."
+font = SubResource("FontVariation_gmyp2")
+outline_size = 10
+autowrap_mode = 3
+width = 1920.0
+
+[node name="ContinueButton" type="StaticBody3D" parent="ClueGroup/ResultOverlay" unique_id=1685129066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.14, 0.06)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(3.15, 0.44, 0.09)
+primary_text = "RETURN TO BOARD"
+primary_font_size = 44
+base_color = Color(0.08, 0.21, 0.34, 0.92)
+rim_color = Color(0.42, 0.92, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+highlight_amount = 0.6
+metadata/_edit_group_ = true
+
+[node name="FinaleGroup" type="Node3D" parent="." unique_id=544868484]
+visible = false
+
+[node name="FinaleHeader" type="Label3D" parent="FinaleGroup" unique_id=1163090261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(1, 0.88, 0.5, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "THE SANCTUARY REMEMBERS"
+font = SubResource("FontVariation_h2bb0")
+font_size = 72
+outline_size = 10
+autowrap_mode = 3
+width = 2150.0
+
+[node name="FinaleBackdrop" type="StaticBody3D" parent="FinaleGroup" unique_id=1272791859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, -0.02)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(5.8, 1.48, 0.08)
+primary_text = ""
+primary_font_size = 40
+base_color = Color(0.07, 0.12, 0.26, 0.9)
+rim_color = Color(1, 0.84, 0.44, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="FinaleWinner" type="Label3D" parent="FinaleGroup" unique_id=1920484040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.44, 0.98, 0.82, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "AURORA PREVAILS!  $9400"
+font = SubResource("FontVariation_h2bb0")
+font_size = 66
+outline_size = 10
+autowrap_mode = 3
+width = 1850.0
+
+[node name="FinaleScores" type="Label3D" parent="FinaleGroup" unique_id=430732658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.94, 0.97, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "#1  AURORA  —  $9400   (14 correct, best streak 5)
+#2  SOLARIS  —  $6200   (9 correct, best streak 3)"
+font = SubResource("FontVariation_gmyp2")
+font_size = 42
+outline_size = 10
+autowrap_mode = 3
+width = 1850.0
+
+[node name="PlayAgainButton" type="StaticBody3D" parent="FinaleGroup" unique_id=1232989502]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.45, -0.98, 0.05)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(2.55, 0.5, 0.1)
+primary_text = "PLAY AGAIN"
+secondary_text = "FRESH BOARD"
+primary_font_size = 46
+base_color = Color(0.08, 0.24, 0.34, 0.92)
+rim_color = Color(0.38, 0.96, 0.84, 1)
+highlight_amount = 0.7
+metadata/_edit_group_ = true
+
+[node name="ChangePackButton" type="StaticBody3D" parent="FinaleGroup" unique_id=297258250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.45, -0.98, 0.05)
+script = ExtResource("4_q3gdo")
+panel_size = Vector3(2.55, 0.5, 0.1)
+primary_text = "CHANGE PACK"
+secondary_text = "RETURN TO LOBBY"
+primary_font_size = 44
+base_color = Color(0.1, 0.14, 0.3, 0.9)
+rim_color = Color(0.84, 0.62, 1, 1)
+metadata/_edit_group_ = true

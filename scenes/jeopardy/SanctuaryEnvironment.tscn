@@ -1,0 +1,336 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/jeopardy/sanctuary_environment.gd" id="1_cbba5"]
+[ext_resource type="Shader" path="res://shaders/ephemeral_sky.gdshader" id="2_6x63e"]
+[ext_resource type="Shader" path="res://shaders/aurora_ribbon.gdshader" id="3_h67vi"]
+[ext_resource type="Texture2D" path="res://assets/textures/glow_mote.png" id="4_brpqd"]
+[ext_resource type="Texture2D" path="res://assets/textures/star_spark.png" id="5_bsnqm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bvtpi"]
+shader = ExtResource("2_6x63e")
+
+[sub_resource type="Sky" id="Sky_f5v6j"]
+sky_material = SubResource("ShaderMaterial_bvtpi")
+
+[sub_resource type="Environment" id="Environment_ex8co"]
+background_mode = 2
+sky = SubResource("Sky_f5v6j")
+ambient_light_source = 2
+ambient_light_color = Color(0.22, 0.3, 0.48, 1)
+ambient_light_energy = 0.65
+glow_enabled = true
+glow_intensity = 0.42
+glow_strength = 0.72
+glow_bloom = 0.1
+fog_enabled = true
+fog_light_color = Color(0.05, 0.09, 0.2, 1)
+fog_density = 0.018
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_76eld"]
+albedo_color = Color(0.06, 0.11, 0.22, 0.92)
+metallic = 0.35
+roughness = 0.22
+emission_enabled = true
+emission = Color(0.1, 0.3, 0.45, 1)
+emission_energy_multiplier = 0.65
+
+[sub_resource type="BoxMesh" id="BoxMesh_cj3ru"]
+material = SubResource("StandardMaterial3D_76eld")
+size = Vector3(0.24, 5.2, 0.24)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1jwwp"]
+shading_mode = 0
+albedo_color = Color(0.22, 0.82, 0.96, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ep0w7"]
+material = SubResource("StandardMaterial3D_1jwwp")
+size = Vector3(0.05, 5.1, 0.27)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8jx8b"]
+size = Vector3(8.5, 0.06, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_24344"]
+albedo_color = Color(0.06, 0.11, 0.22, 0.92)
+metallic = 0.35
+roughness = 0.22
+emission_enabled = true
+emission = Color(0.1, 0.3, 0.45, 1)
+emission_energy_multiplier = 0.65
+
+[sub_resource type="BoxMesh" id="BoxMesh_46j3c"]
+material = SubResource("StandardMaterial3D_24344")
+size = Vector3(0.24, 5.2, 0.24)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8jlcb"]
+shading_mode = 0
+albedo_color = Color(0.22, 0.82, 0.96, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qyhg1"]
+material = SubResource("StandardMaterial3D_8jlcb")
+size = Vector3(0.05, 5.1, 0.27)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tr2qo"]
+size = Vector3(8.5, 0.06, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u4wy1"]
+albedo_color = Color(0.06, 0.11, 0.22, 0.92)
+metallic = 0.35
+roughness = 0.22
+emission_enabled = true
+emission = Color(0.1, 0.3, 0.45, 1)
+emission_energy_multiplier = 0.65
+
+[sub_resource type="BoxMesh" id="BoxMesh_11dy4"]
+material = SubResource("StandardMaterial3D_u4wy1")
+size = Vector3(0.24, 5.2, 0.24)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eqlty"]
+shading_mode = 0
+albedo_color = Color(0.22, 0.82, 0.96, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_o2ply"]
+material = SubResource("StandardMaterial3D_eqlty")
+size = Vector3(0.05, 5.1, 0.27)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6t1pa"]
+size = Vector3(8.5, 0.06, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f43xn"]
+albedo_color = Color(0.06, 0.11, 0.22, 0.92)
+metallic = 0.35
+roughness = 0.22
+emission_enabled = true
+emission = Color(0.1, 0.3, 0.45, 1)
+emission_energy_multiplier = 0.65
+
+[sub_resource type="BoxMesh" id="BoxMesh_0cveb"]
+material = SubResource("StandardMaterial3D_f43xn")
+size = Vector3(0.24, 5.2, 0.24)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xb2i"]
+shading_mode = 0
+albedo_color = Color(0.22, 0.82, 0.96, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kycte"]
+material = SubResource("StandardMaterial3D_0xb2i")
+size = Vector3(0.05, 5.1, 0.27)
+
+[sub_resource type="BoxMesh" id="BoxMesh_567s4"]
+size = Vector3(8.5, 0.06, 0.08)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_73tae"]
+render_priority = -6
+shader = ExtResource("3_h67vi")
+shader_parameter/color_a = Color(0.18, 0.84, 0.95, 1)
+shader_parameter/color_b = Color(0.66, 0.34, 0.98, 1)
+shader_parameter/speed = 0.36
+shader_parameter/opacity = 0.32
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5ypaw"]
+size = Vector2(9.2, 3.2)
+subdivide_width = 18
+subdivide_depth = 6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yfeiw"]
+render_priority = -6
+shader = ExtResource("3_h67vi")
+shader_parameter/color_a = Color(0.18, 0.84, 0.95, 1)
+shader_parameter/color_b = Color(0.66, 0.34, 0.98, 1)
+shader_parameter/speed = 0.41
+shader_parameter/opacity = 0.32
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3wlxq"]
+size = Vector2(9.2, 3.2)
+subdivide_width = 18
+subdivide_depth = 6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iyxqx"]
+render_priority = -6
+shader = ExtResource("3_h67vi")
+shader_parameter/color_a = Color(0.18, 0.84, 0.95, 1)
+shader_parameter/color_b = Color(0.66, 0.34, 0.98, 1)
+shader_parameter/speed = 0.45999999999999996
+shader_parameter/opacity = 0.32
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h42dc"]
+size = Vector2(9.2, 3.2)
+subdivide_width = 18
+subdivide_depth = 6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b8bj7"]
+render_priority = -6
+shader = ExtResource("3_h67vi")
+shader_parameter/color_a = Color(0.18, 0.84, 0.95, 1)
+shader_parameter/color_b = Color(0.66, 0.34, 0.98, 1)
+shader_parameter/speed = 0.51
+shader_parameter/opacity = 0.32
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6wvsd"]
+size = Vector2(9.2, 3.2)
+subdivide_width = 18
+subdivide_depth = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6p6yn"]
+render_priority = -3
+transparency = 1
+blend_mode = 1
+depth_draw_mode = 2
+shading_mode = 0
+albedo_color = Color(0.68, 0.94, 1, 0.65)
+albedo_texture = ExtResource("4_brpqd")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_3vbl2"]
+material = SubResource("StandardMaterial3D_6p6yn")
+size = Vector2(0.22, 0.22)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mve7j"]
+render_priority = -3
+transparency = 1
+blend_mode = 1
+depth_draw_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0.86, 0.42, 0.92)
+albedo_texture = ExtResource("5_bsnqm")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_vfejx"]
+material = SubResource("StandardMaterial3D_mve7j")
+size = Vector2(0.28, 0.28)
+
+[node name="SanctuaryEnvironment" type="Node3D" unique_id=284135033]
+script = ExtResource("1_cbba5")
+
+[node name="SanctuaryWorldEnvironment" type="WorldEnvironment" parent="." unique_id=1883168620]
+environment = SubResource("Environment_ex8co")
+
+[node name="CelestialKeyLight" type="DirectionalLight3D" parent="." unique_id=1493811125]
+transform = Transform3D(0.88294756, -0.31413782, 0.34888536, 0, 0.7431448, 0.6691306, -0.46947157, -0.59080726, 0.6561579, 0, 0, 0)
+light_color = Color(0.75, 0.88, 1, 1)
+light_energy = 0.65
+
+[node name="SanctuaryCoreLight" type="OmniLight3D" parent="." unique_id=950768264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 0)
+light_color = Color(0.22, 0.82, 0.96, 1)
+light_energy = 1.6
+omni_range = 14.0
+
+[node name="CornerPillar_0" type="Node3D" parent="." unique_id=1360733305]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, -4.25, 1.85, -4.25)
+
+[node name="PillarBody" type="MeshInstance3D" parent="CornerPillar_0" unique_id=1504549212]
+mesh = SubResource("BoxMesh_cj3ru")
+
+[node name="LightVein" type="MeshInstance3D" parent="CornerPillar_0" unique_id=94081419]
+mesh = SubResource("BoxMesh_ep0w7")
+
+[node name="CorniceBeam_0" type="MeshInstance3D" parent="." unique_id=400849165]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.65, -4.25)
+material_override = SubResource("StandardMaterial3D_1jwwp")
+mesh = SubResource("BoxMesh_8jx8b")
+
+[node name="CornerPillar_1" type="Node3D" parent="." unique_id=582117205]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 4.25, 1.85, -4.25)
+
+[node name="PillarBody" type="MeshInstance3D" parent="CornerPillar_1" unique_id=482435647]
+mesh = SubResource("BoxMesh_46j3c")
+
+[node name="LightVein" type="MeshInstance3D" parent="CornerPillar_1" unique_id=415282488]
+mesh = SubResource("BoxMesh_qyhg1")
+
+[node name="CorniceBeam_1" type="MeshInstance3D" parent="." unique_id=758084842]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.25, 3.65, 0)
+material_override = SubResource("StandardMaterial3D_8jlcb")
+mesh = SubResource("BoxMesh_tr2qo")
+
+[node name="CornerPillar_2" type="Node3D" parent="." unique_id=73049960]
+transform = Transform3D(-0.7071068, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.7071068, 4.25, 1.85, 4.25)
+
+[node name="PillarBody" type="MeshInstance3D" parent="CornerPillar_2" unique_id=2096830718]
+mesh = SubResource("BoxMesh_11dy4")
+
+[node name="LightVein" type="MeshInstance3D" parent="CornerPillar_2" unique_id=418143538]
+mesh = SubResource("BoxMesh_o2ply")
+
+[node name="CorniceBeam_2" type="MeshInstance3D" parent="." unique_id=1222189495]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.65, 4.25)
+material_override = SubResource("StandardMaterial3D_eqlty")
+mesh = SubResource("BoxMesh_6t1pa")
+
+[node name="CornerPillar_3" type="Node3D" parent="." unique_id=1679587791]
+transform = Transform3D(0.70710665, 0, -0.7071069, 0, 1, 0, 0.7071069, 0, 0.70710665, -4.25, 1.85, 4.25)
+
+[node name="PillarBody" type="MeshInstance3D" parent="CornerPillar_3" unique_id=34448162]
+mesh = SubResource("BoxMesh_0cveb")
+
+[node name="LightVein" type="MeshInstance3D" parent="CornerPillar_3" unique_id=1216451590]
+mesh = SubResource("BoxMesh_kycte")
+
+[node name="CorniceBeam_3" type="MeshInstance3D" parent="." unique_id=1729530692]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.25, 3.65, 0)
+material_override = SubResource("StandardMaterial3D_0xb2i")
+mesh = SubResource("BoxMesh_567s4")
+
+[node name="AuroraRibbon_0" type="MeshInstance3D" parent="." unique_id=295555186]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 2.75, -5.6)
+material_override = SubResource("ShaderMaterial_73tae")
+mesh = SubResource("PlaneMesh_5ypaw")
+
+[node name="AuroraRibbon_1" type="MeshInstance3D" parent="." unique_id=1390987913]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, -5.6, 2.75, 0)
+material_override = SubResource("ShaderMaterial_yfeiw")
+mesh = SubResource("PlaneMesh_3wlxq")
+
+[node name="AuroraRibbon_2" type="MeshInstance3D" parent="." unique_id=1093174167]
+transform = Transform3D(-4.371139e-08, -1, 4.371139e-08, 0, -4.371139e-08, -1, 1, -4.371139e-08, 1.9106855e-15, 5.6, 2.75, 0)
+material_override = SubResource("ShaderMaterial_iyxqx")
+mesh = SubResource("PlaneMesh_h42dc")
+
+[node name="AuroraRibbon_3" type="MeshInstance3D" parent="." unique_id=1721779840]
+transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, 0, 2.75, 5.6)
+material_override = SubResource("ShaderMaterial_b8bj7")
+mesh = SubResource("PlaneMesh_6wvsd")
+
+[node name="AmbientLightMotes" type="CPUParticles3D" parent="." unique_id=530445462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+amount = 90
+lifetime = 8.5
+preprocess = 4.0
+mesh = SubResource("QuadMesh_3vbl2")
+emission_shape = 3
+emission_box_extents = Vector3(4.8, 0.6, 4.8)
+direction = Vector3(0, 1, 0)
+spread = 22.0
+gravity = Vector3(0, 0.04, 0)
+initial_velocity_min = 0.2
+initial_velocity_max = 0.55
+scale_amount_min = 0.25
+scale_amount_max = 0.7
+
+[node name="CelebrationBurst" type="CPUParticles3D" parent="." unique_id=1755552338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+emitting = false
+amount = 110
+lifetime = 2.6
+one_shot = true
+explosiveness = 0.72
+mesh = SubResource("QuadMesh_vfejx")
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.4
+emission_ring_radius = 3.2
+emission_ring_inner_radius = 1.4
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 1, 0)
+spread = 32.0
+gravity = Vector3(0, -0.35, 0)
+initial_velocity_min = 1.2
+initial_velocity_max = 2.8
+scale_amount_min = 0.35
+scale_amount_max = 0.95

@@ -1,0 +1,242 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/jeopardy/right_wall_stage.gd" id="1_dgykr"]
+[ext_resource type="FontFile" path="res://assets/fonts/ui_font.ttf" id="2_h1d4f"]
+[ext_resource type="Script" path="res://scripts/core/glass_button_3d.gd" id="3_tmgxr"]
+[ext_resource type="FontFile" path="res://assets/fonts/display_font.ttf" id="4_7dy4p"]
+
+[sub_resource type="FontVariation" id="FontVariation_gmyp2"]
+base_font = ExtResource("2_h1d4f")
+variation_opentype = {
+2003265652: 700
+}
+variation_embolden = 0.1
+
+[sub_resource type="FontVariation" id="FontVariation_h2bb0"]
+base_font = ExtResource("4_7dy4p")
+variation_opentype = {
+2003265652: 750
+}
+variation_embolden = 0.08
+
+[node name="RightWallStage" type="Node3D" unique_id=1694267122]
+script = ExtResource("1_dgykr")
+
+[node name="ChronicleGroup" type="Node3D" parent="." unique_id=1210768042]
+
+[node name="ChronicleTitle" type="Label3D" parent="ChronicleGroup" unique_id=1600848411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.95, 0.98, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "ECHOES OF THE ROUND"
+font = SubResource("FontVariation_gmyp2")
+font_size = 52
+outline_size = 10
+autowrap_mode = 3
+width = 2050.0
+
+[node name="ChronicleProgress" type="Label3D" parent="ChronicleGroup" unique_id=619437426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.56, 0.9, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "EPHEMERAL WONDERS  •  25 / 25 REMAINING"
+font = SubResource("FontVariation_gmyp2")
+outline_size = 10
+autowrap_mode = 3
+width = 2000.0
+
+[node name="ChronicleBackdrop" type="StaticBody3D" parent="ChronicleGroup" unique_id=1010713215]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, -0.02)
+script = ExtResource("3_tmgxr")
+panel_size = Vector3(5.9, 1.78, 0.08)
+primary_text = ""
+primary_font_size = 40
+base_color = Color(0.05, 0.11, 0.24, 0.88)
+rim_color = Color(0.4, 0.82, 1, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="ChronicleBody" type="Label3D" parent="ChronicleGroup" unique_id=937004162]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.88, 0.94, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "HOW TO PLAY
+
+• Tap any glowing value monolith on the Center Wall
+• Answer before the ephemeral light fades
+• Watch for hidden Ephemeral Surges (Daily Doubles)
+• Tap Team Podiums on the Left Wall or Floor to buzz in"
+font = SubResource("FontVariation_gmyp2")
+font_size = 38
+outline_size = 10
+autowrap_mode = 3
+width = 1760.0
+
+[node name="ActiveClueTimerGroup" type="Node3D" parent="." unique_id=623756659]
+visible = false
+
+[node name="TimerTitle" type="Label3D" parent="ActiveClueTimerGroup" unique_id=301696681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.78, 0.92, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "EPHEMERAL COUNTDOWN"
+font = SubResource("FontVariation_gmyp2")
+font_size = 48
+outline_size = 10
+autowrap_mode = 3
+width = 2000.0
+
+[node name="TimerBackdrop" type="StaticBody3D" parent="ActiveClueTimerGroup" unique_id=2087899044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, -0.02)
+script = ExtResource("3_tmgxr")
+panel_size = Vector3(4.2, 1.48, 0.08)
+primary_text = ""
+primary_font_size = 40
+base_color = Color(0.06, 0.12, 0.26, 0.9)
+rim_color = Color(0.36, 0.9, 1, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="BigTimer" type="Label3D" parent="ActiveClueTimerGroup" unique_id=693513201]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.45, 0.94, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "25"
+font = SubResource("FontVariation_h2bb0")
+font_size = 168
+outline_size = 10
+autowrap_mode = 3
+width = 1200.0
+
+[node name="ActiveTeam" type="Label3D" parent="ActiveClueTimerGroup" unique_id=1376281573]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.26, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(1, 0.88, 0.52, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "ACTIVE: AURORA"
+font = SubResource("FontVariation_gmyp2")
+font_size = 40
+outline_size = 10
+autowrap_mode = 3
+width = 1500.0
+
+[node name="ExtendTimerButton" type="StaticBody3D" parent="ActiveClueTimerGroup" unique_id=523076842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.92, 0.04)
+script = ExtResource("3_tmgxr")
+panel_size = Vector3(2.8, 0.48, 0.09)
+primary_text = "+10 SECONDS"
+secondary_text = "EXTEND THE MOMENT"
+primary_font_size = 44
+base_color = Color(0.08, 0.18, 0.32, 0.9)
+rim_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true
+
+[node name="WagerMirrorGroup" type="Node3D" parent="." unique_id=644551460]
+visible = false
+
+[node name="WagerMirrorTitle" type="Label3D" parent="WagerMirrorGroup" unique_id=162863964]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(1, 0.86, 0.46, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "WAGER CONSOLE"
+font = SubResource("FontVariation_gmyp2")
+font_size = 56
+outline_size = 10
+autowrap_mode = 3
+width = 1900.0
+
+[node name="WagerMirrorAmount" type="Label3D" parent="WagerMirrorGroup" unique_id=1876126127]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, 0.06)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(1, 0.94, 0.72, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "$500"
+font = SubResource("FontVariation_h2bb0")
+font_size = 128
+outline_size = 10
+autowrap_mode = 3
+width = 1500.0
+
+[node name="MirrorPreset_25" type="StaticBody3D" parent="WagerMirrorGroup" unique_id=1850364907]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.95, -0.28, 0)
+script = ExtResource("3_tmgxr")
+panel_size = Vector3(1.16, 0.44, 0.08)
+primary_text = "25%"
+primary_font_size = 42
+base_color = Color(0.11, 0.12, 0.3, 0.9)
+rim_color = Color(0.86, 0.56, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="MirrorPreset_50" type="StaticBody3D" parent="WagerMirrorGroup" unique_id=142535009]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, -0.28, 0)
+script = ExtResource("3_tmgxr")
+panel_size = Vector3(1.16, 0.44, 0.08)
+primary_text = "50%"
+primary_font_size = 42
+base_color = Color(0.11, 0.12, 0.3, 0.9)
+rim_color = Color(0.86, 0.56, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="MirrorPreset_75" type="StaticBody3D" parent="WagerMirrorGroup" unique_id=603096019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, -0.28, 0)
+script = ExtResource("3_tmgxr")
+panel_size = Vector3(1.16, 0.44, 0.08)
+primary_text = "75%"
+primary_font_size = 42
+base_color = Color(0.11, 0.12, 0.3, 0.9)
+rim_color = Color(0.86, 0.56, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="MirrorPreset_AllIn" type="StaticBody3D" parent="WagerMirrorGroup" unique_id=1600735333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.95, -0.28, 0)
+script = ExtResource("3_tmgxr")
+panel_size = Vector3(1.16, 0.44, 0.08)
+primary_text = "ALL IN"
+primary_font_size = 42
+base_color = Color(0.11, 0.12, 0.3, 0.9)
+rim_color = Color(0.86, 0.56, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="MirrorLockButton" type="StaticBody3D" parent="WagerMirrorGroup" unique_id=1131607037]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.94, 0.05)
+script = ExtResource("3_tmgxr")
+panel_size = Vector3(2.8, 0.5, 0.1)
+primary_text = "LOCK WAGER"
+secondary_text = "CONFIRM"
+primary_font_size = 48
+base_color = Color(0.15, 0.24, 0.34, 0.92)
+rim_color = Color(1, 0.84, 0.42, 1)
+highlight_amount = 0.65
+metadata/_edit_group_ = true

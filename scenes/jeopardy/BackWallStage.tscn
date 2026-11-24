@@ -1,0 +1,96 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/jeopardy/back_wall_stage.gd" id="1_mv3os"]
+[ext_resource type="FontFile" path="res://assets/fonts/ui_font.ttf" id="2_356ut"]
+[ext_resource type="Script" path="res://scripts/core/glass_button_3d.gd" id="3_nyoxr"]
+
+[sub_resource type="FontVariation" id="FontVariation_gmyp2"]
+base_font = ExtResource("2_356ut")
+variation_opentype = {
+2003265652: 700
+}
+variation_embolden = 0.1
+
+[node name="BackWallStage" type="Node3D" unique_id=2091033570]
+script = ExtResource("1_mv3os")
+
+[node name="HeaderLabel" type="Label3D" parent="." unique_id=1055916138]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.86, 0.96, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "EPHEMERAL JEOPARDY  •  360° IMMERSIVE SANCTUARY"
+font = SubResource("FontVariation_gmyp2")
+font_size = 48
+outline_size = 10
+autowrap_mode = 3
+width = 2100.0
+
+[node name="MirrorBackdrop" type="StaticBody3D" parent="." unique_id=374787318]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, -0.02)
+script = ExtResource("3_nyoxr")
+panel_size = Vector3(5.9, 1.5, 0.08)
+primary_text = ""
+primary_font_size = 40
+base_color = Color(0.05, 0.11, 0.24, 0.88)
+rim_color = Color(0.56, 0.72, 1, 1)
+accent_color = Color(1, 0.84, 0.44, 1)
+enable_idle_float = false
+interaction_enabled = false
+metadata/_edit_group_ = true
+
+[node name="MainLabel" type="Label3D" parent="." unique_id=1897836224]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.98, 0.99, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "EPHEMERAL WONDERS"
+font = SubResource("FontVariation_gmyp2")
+font_size = 58
+outline_size = 10
+autowrap_mode = 3
+width = 1800.0
+
+[node name="SubLabel" type="Label3D" parent="." unique_id=2102234861]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18, 0.08)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.76, 0.9, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "Face the Center Wall to configure teams & begin,
+or tap START right here."
+font = SubResource("FontVariation_gmyp2")
+font_size = 38
+outline_size = 10
+autowrap_mode = 3
+width = 1780.0
+
+[node name="SwitchTeamBtn" type="StaticBody3D" parent="." unique_id=1617691316]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.45, -0.96, 0.04)
+script = ExtResource("3_nyoxr")
+panel_size = Vector3(2.55, 0.46, 0.09)
+primary_text = "SWITCH ACTIVE TEAM"
+secondary_text = "BACK WALL BUZZ"
+primary_font_size = 38
+base_color = Color(0.08, 0.15, 0.3, 0.9)
+rim_color = Color(0.42, 0.9, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="PrimaryActionBtn" type="StaticBody3D" parent="." unique_id=1250739615]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.45, -0.96, 0.04)
+script = ExtResource("3_nyoxr")
+panel_size = Vector3(2.55, 0.46, 0.09)
+primary_text = "START GAME"
+secondary_text = "ILLUMINATE BOARD"
+primary_font_size = 38
+base_color = Color(0.1, 0.21, 0.34, 0.92)
+rim_color = Color(1, 0.84, 0.44, 1)
+metadata/_edit_group_ = true

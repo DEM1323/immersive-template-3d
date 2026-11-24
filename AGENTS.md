@@ -103,12 +103,22 @@ Use `tools/godot_dev.ps1` for one-command workflows:
 .\tools\godot_dev.ps1 editor      # Open project in Godot 4.6.2 Editor
 ```
 
-### Split Browser Projection Setup (4 Walls + Separate Synced Floor)
-When the 4 walls and floor run in separate browser views on the same PC (even in isolated browser profiles/sandboxes):
-1. Run `.\tools\godot_dev.ps1 export-web` (outputs `exports/web/walls.html`, `exports/web/floor.html`, and `exports/web/index.html` sharing a single `index.wasm` & `index.pck`).
-2. Start the local sync server via `.\tools\godot_dev.ps1 serve` (or double-click `tools/start_room_server.bat`).
-3. Point the 4-wall browser to **`http://127.0.0.1:8080/walls.html`** and the floor browser to **`http://127.0.0.1:8080/floor.html`**.
-   - Both `BroadcastChannel` (same browser profile) and same-origin WebSocket (`/ws`, isolated browser profiles or LAN devices) run simultaneously with automatic `msg_id` deduplication.
+### Per-Surface Browser Projection Setup (5 Individual URLs)
+Each projector surface has its own synced HTML entrypoint sharing one `index.wasm` & `index.pck`:
+- **Center Wall (Authoritative Host + Audio):** `https://dem1323.github.io/immersive-template-3d/center.html`
+- **Left Wall (Team Podiums & Controls):** `https://dem1323.github.io/immersive-template-3d/left.html`
+- **Right Wall (Echoes Chronicle / Timer / Wager):** `https://dem1323.github.io/immersive-template-3d/right.html`
+- **Back Wall (Spectator Mirror & Controls):** `https://dem1323.github.io/immersive-template-3d/back.html`
+- **Floor (Mandala & Team Touch Pads):** `https://dem1323.github.io/immersive-template-3d/floor.html`
+- *(Legacy combined URLs still exported: `walls.html` for 4 walls, `index.html` for all 5.)*
+
+When running locally via `.\tools\godot_dev.ps1 serve` (or `tools/start_room_server.bat`), the exact same 5 URLs work at `http://127.0.0.1:8080/{left,center,right,back,floor}.html` with automatic hybrid `BroadcastChannel` + `/ws` WebSocket sync (works even across isolated browser profiles/sandboxes).
+
+### Editing Visually in the Godot Editor
+All 6 modular environment & wall scenes (`SanctuaryEnvironment.tscn`, `CenterWallStage.tscn`, `LeftWallStage.tscn`, `RightWallStage.tscn`, `BackWallStage.tscn`, `FloorStage.tscn`) are baked as real editable scenes instanced (with editable children) inside `scenes/jeopardy/EphemeralJeopardyWorld.tscn`.
+- `GlassButton3D` and `JeopardyTile3D` are `@tool` nodes: tweak `panel_size`, `primary_text`, `secondary_text`, `base_color`, `rim_color`, `accent_color`, or transform directly in the Godot Editor with live 3D updates.
+- Select `EphemeralJeopardyWorld` (or `CenterWallStage` / `RightWallStage`) and use the **`Editor Preview Screen`** Inspector dropdown to switch between `Board (5x5)`, `Setup Lobby`, `Daily Double Wager`, `Active Clue (Quiz)`, `Active Clue (Host)`, `Clue Result`, and `Finale` live in the Editor.
+- Runtime scripts bind to existing saved scene nodes without overwriting manual position/size/color edits.
 
 ### GitHub Pages Deployment (No Local Server Needed)
 Repo: **https://github.com/DEM1323/immersive-template-3d** (source on `main`; build output only on `gh-pages`).
@@ -118,13 +128,8 @@ Repo: **https://github.com/DEM1323/immersive-template-3d** (source on `main`; bu
 ```
 Runs `check` + `export-web` (aborts if either fails), stages only `exports/web/*` (incl. `.nojekyll`) into a temp dir, creates a fresh orphan single-commit `gh-pages` branch, and force-pushes it to `origin`. `main` never tracks `index.wasm`/`index.pck`, and `gh-pages` stays 1 commit deep so repo size never grows across redeploys.
 
-Live URLs:
-- 4 Walls: **https://dem1323.github.io/immersive-template-3d/walls.html**
-- Floor: **https://dem1323.github.io/immersive-template-3d/floor.html**
-- All 5: **https://dem1323.github.io/immersive-template-3d/index.html**
-
 WebSocket relay resolution (`RoomRole.resolve_ws_url()`):
-- On public static hosts (e.g. `*.github.io`) no `/ws` connection is attempted; walls & floor sync over `BroadcastChannel`, which requires **both windows in the same browser profile**.
+- On public static hosts (e.g. `*.github.io`) no `/ws` connection is attempted; all 5 surfaces sync over `BroadcastChannel`, which requires **windows in the same browser profile**.
 - Same-origin `ws(s)://<host>/ws` is auto-used only on local/LAN hosts (`localhost`, `127.0.0.1`, `[::1]`, `*.local`, `10.*`, `192.168.*`, `172.16-31.*`).
 - `?ws=wss://your-relay.example/ws` forces an external relay (for isolated browser profiles / separate devices); `?ws=none` (or `off`/`false`) disables WebSocket entirely. Combine with `?room=<id>` to separate rooms.
 

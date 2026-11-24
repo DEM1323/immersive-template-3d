@@ -3,6 +3,8 @@ class_name JeopardyGameState
 
 ## Pure, headless-testable game state machine for Ephemeral Jeopardy.
 ## Drives all 5 projection surfaces (Center, Left, Right, Back, Floor) via signals.
+## In replica mode (left.html, right.html, back.html, floor.html), every mutating action
+## forwards a command to the authoritative host (center.html / walls.html) over sync.
 
 enum Phase {
 	SETUP,
@@ -44,9 +46,11 @@ signal timer_anchor_changed(remaining: float, total: float, paused: bool, anchor
 signal timer_urgent_tick(seconds_left: int)
 signal history_updated(entries: Array[Dictionary])
 signal game_finished(standings: Array[Dictionary])
+signal audio_mute_changed(is_muted: bool)
 signal remote_command_requested(command: String, payload: Dictionary)
 
 var is_replica: bool = false
+var audio_muted: bool = false
 var packs: Array[JeopardyPack] = []
 var current_pack_index: int = 0
 var current_pack: JeopardyPack = null
@@ -126,6 +130,9 @@ func load_packs() -> void:
 
 
 func select_pack(index: int) -> void:
+	if is_replica:
+		remote_command_requested.emit("select_pack", {"index": index})
+		return
 	if packs.is_empty():
 		return
 	current_pack_index = posmod(index, packs.size())
@@ -136,21 +143,45 @@ func select_pack(index: int) -> void:
 
 
 func cycle_pack() -> void:
+	if is_replica:
+		remote_command_requested.emit("cycle_pack", {})
+		return
 	select_pack(current_pack_index + 1)
 
 
 func set_team_count(count: int) -> void:
+	if is_replica:
+		remote_command_requested.emit("set_team_count", {"count": count})
+		return
 	team_count = clampi(count, 1, 4)
 	_rebuild_teams()
 
 
 func set_play_mode(mode: int) -> void:
+	if is_replica:
+		remote_command_requested.emit("set_play_mode", {"mode": mode})
+		return
 	play_mode = mode
 	play_mode_changed.emit(play_mode)
 
 
 func toggle_play_mode() -> void:
+	if is_replica:
+		remote_command_requested.emit("toggle_play_mode", {})
+		return
 	set_play_mode(PlayMode.HOST if play_mode == PlayMode.QUIZ else PlayMode.QUIZ)
+
+
+func toggle_audio_mute() -> void:
+	if is_replica:
+		remote_command_requested.emit("toggle_mute", {})
+		return
+	set_audio_muted(not audio_muted)
+
+
+func set_audio_muted(muted: bool) -> void:
+	audio_muted = muted
+	audio_mute_changed.emit(audio_muted)
 
 
 func set_active_team(index: int) -> void:
@@ -165,6 +196,9 @@ func set_active_team(index: int) -> void:
 
 func cycle_active_team() -> void:
 	if teams.is_empty():
+		return
+	if is_replica:
+		remote_command_requested.emit("cycle_active_team", {})
 		return
 	set_active_team((active_team_index + 1) % teams.size())
 
@@ -188,11 +222,17 @@ func _rebuild_teams() -> void:
 
 
 func return_to_setup() -> void:
+	if is_replica:
+		remote_command_requested.emit("return_to_setup", {})
+		return
 	timer_paused = false
 	_set_phase(Phase.SETUP)
 
 
 func start_new_game() -> void:
+	if is_replica:
+		remote_command_requested.emit("start_new_game", {})
+		return
 	if current_pack == null:
 		load_packs()
 	_rebuild_teams()
@@ -200,6 +240,13 @@ func start_new_game() -> void:
 	daily_double_keys.clear()
 	history.clear()
 	last_result.clear()
+	active_cat_idx = -1
+	active_row_idx = -1
+	active_clue = {}
+	active_value = 0
+	active_is_daily_double = false
+	active_is_final = false
+	host_revealed = false
 
 	var cols := current_pack.get_category_count()
 	var rows := current_pack.get_row_count()
@@ -237,6 +284,9 @@ func is_tile_daily_double(cat_idx: int, row_idx: int) -> bool:
 
 
 func select_tile(cat_idx: int, row_idx: int) -> bool:
+	if is_replica:
+		remote_command_requested.emit("select_tile", {"cat_idx": cat_idx, "row_idx": row_idx})
+		return true
 	if phase != Phase.BOARD or current_pack == null:
 		return false
 	var key := _tile_key(cat_idx, row_idx)
@@ -269,6 +319,9 @@ func select_tile(cat_idx: int, row_idx: int) -> bool:
 
 
 func adjust_wager(delta_amount: int) -> void:
+	if is_replica:
+		remote_command_requested.emit("adjust_wager", {"delta": delta_amount})
+		return
 	if phase != Phase.DAILY_DOUBLE_WAGER and phase != Phase.FINAL_WAGER:
 		return
 	current_wager = clampi(current_wager + delta_amount, min_wager, max_wager)
@@ -276,6 +329,9 @@ func adjust_wager(delta_amount: int) -> void:
 
 
 func set_wager_fraction(fraction: float) -> void:
+	if is_replica:
+		remote_command_requested.emit("set_wager_fraction", {"fraction": fraction})
+		return
 	if phase != Phase.DAILY_DOUBLE_WAGER and phase != Phase.FINAL_WAGER:
 		return
 	var raw := int(round(float(max_wager) * clampf(fraction, 0.0, 1.0) / 100.0)) * 100
@@ -286,6 +342,9 @@ func set_wager_fraction(fraction: float) -> void:
 
 
 func lock_wager() -> void:
+	if is_replica:
+		remote_command_requested.emit("lock_wager", {})
+		return
 	if phase == Phase.DAILY_DOUBLE_WAGER:
 		active_value = current_wager
 		_begin_active_clue(active_value)
@@ -326,6 +385,9 @@ func _begin_active_clue(value: int) -> void:
 
 
 func toggle_timer_pause() -> void:
+	if is_replica:
+		remote_command_requested.emit("toggle_timer_pause", {})
+		return
 	if phase != Phase.CLUE_ACTIVE and phase != Phase.FINAL_CLUE:
 		return
 	timer_paused = not timer_paused
@@ -334,6 +396,9 @@ func toggle_timer_pause() -> void:
 
 
 func extend_timer(extra_seconds: float = 10.0) -> void:
+	if is_replica:
+		remote_command_requested.emit("extend_timer", {"seconds": extra_seconds})
+		return
 	if phase != Phase.CLUE_ACTIVE and phase != Phase.FINAL_CLUE:
 		return
 	timer_remaining = minf(timer_remaining + extra_seconds, timer_total + 30.0)
@@ -358,6 +423,9 @@ func tick_timer(delta: float) -> void:
 
 
 func submit_choice(choice_index: int) -> bool:
+	if is_replica:
+		remote_command_requested.emit("submit_choice", {"choice_index": choice_index})
+		return true
 	if phase != Phase.CLUE_ACTIVE and phase != Phase.FINAL_CLUE:
 		return false
 	var correct_idx := int(active_clue.get("correct_index", 0))
@@ -367,6 +435,9 @@ func submit_choice(choice_index: int) -> bool:
 
 
 func reveal_host_answer() -> void:
+	if is_replica:
+		remote_command_requested.emit("reveal_host_answer", {})
+		return
 	if phase != Phase.CLUE_ACTIVE and phase != Phase.FINAL_CLUE:
 		return
 	host_revealed = true
@@ -374,6 +445,9 @@ func reveal_host_answer() -> void:
 
 
 func submit_host_judgment(was_correct: bool, is_pass: bool = false) -> void:
+	if is_replica:
+		remote_command_requested.emit("submit_host_judgment", {"was_correct": was_correct, "is_pass": is_pass})
+		return
 	if phase != Phase.CLUE_ACTIVE and phase != Phase.FINAL_CLUE:
 		return
 	_resolve_clue(was_correct, false, is_pass, -1)
@@ -472,6 +546,9 @@ func _resolve_clue(was_correct: bool, timed_out: bool, is_pass: bool, chosen_ind
 
 
 func continue_after_result() -> void:
+	if is_replica:
+		remote_command_requested.emit("continue_after_result", {})
+		return
 	if phase != Phase.CLUE_RESULT:
 		return
 	if active_is_final:
@@ -488,11 +565,16 @@ func continue_after_result() -> void:
 
 
 func begin_final_jeopardy() -> void:
+	if is_replica:
+		remote_command_requested.emit("begin_final_jeopardy", {})
+		return
 	if current_pack == null or current_pack.final_jeopardy.is_empty():
 		_finish_game()
 		return
 	active_is_final = true
 	active_is_daily_double = false
+	active_cat_idx = -1
+	active_row_idx = -1
 	active_clue = current_pack.final_jeopardy
 	final_wagers = []
 	for _i in range(teams.size()):
@@ -542,6 +624,9 @@ func _finish_game() -> void:
 	game_finished.emit(get_standings())
 
 
+# ------------------------------------------------------------------------------
+# SYNC SNAPSHOT SERIALIZATION & HYDRATION (ALL 5 SURFACES)
+# ------------------------------------------------------------------------------
 func export_sync_snapshot() -> Dictionary:
 	var ser_teams: Array[Dictionary] = []
 	for t in teams:
@@ -556,26 +641,64 @@ func export_sync_snapshot() -> Dictionary:
 			"streak": int(t["streak"]),
 			"best_streak": int(t["best_streak"]),
 		})
+
+	var ser_history: Array[Dictionary] = []
+	for item in history:
+		ser_history.append(item.duplicate())
+
+	var ser_result := {}
+	if not last_result.is_empty():
+		ser_result = {
+			"category": str(last_result.get("category", "")),
+			"value": int(last_result.get("value", 0)),
+			"was_correct": bool(last_result.get("was_correct", false)),
+			"timed_out": bool(last_result.get("timed_out", false)),
+			"is_pass": bool(last_result.get("is_pass", false)),
+			"outcome": str(last_result.get("outcome", "")),
+			"score_delta": int(last_result.get("score_delta", 0)),
+			"team_index": int(last_result.get("team_index", 0)),
+			"team_name": str(last_result.get("team_name", "")),
+			"answer": str(last_result.get("answer", "")),
+			"fact": str(last_result.get("fact", "")),
+			"is_daily_double": bool(last_result.get("is_daily_double", false)),
+			"is_final": bool(last_result.get("is_final", false)),
+		}
+
 	return {
 		"phase": phase,
 		"play_mode": play_mode,
+		"audio_muted": audio_muted,
 		"pack_index": current_pack_index,
 		"teams": ser_teams,
 		"active_team_index": active_team_index,
 		"remaining_tiles": remaining_tiles,
 		"total_tiles": total_tiles,
+		"cleared_keys": cleared_tiles.keys(),
+		"active_cat_idx": active_cat_idx,
+		"active_row_idx": active_row_idx,
 		"active_value": active_value,
 		"active_is_daily_double": active_is_daily_double,
 		"active_is_final": active_is_final,
+		"host_revealed": host_revealed,
+		"current_wager": current_wager,
+		"min_wager": min_wager,
+		"max_wager": max_wager,
+		"final_wager_team_cursor": final_wager_team_cursor,
+		"final_answer_team_cursor": final_answer_team_cursor,
 		"timer_remaining": timer_remaining,
 		"timer_total": timer_total,
 		"timer_paused": timer_paused,
 		"timer_anchor_unix": Time.get_unix_time_from_system(),
+		"history": ser_history,
+		"last_result": ser_result,
 	}
 
 
 func apply_sync_snapshot(snap: Dictionary) -> void:
 	var old_phase := phase
+	var old_mode := play_mode
+	var old_muted := audio_muted
+
 	var new_pack_idx := int(snap.get("pack_index", current_pack_index))
 	if not packs.is_empty() and new_pack_idx >= 0 and new_pack_idx < packs.size() and new_pack_idx != current_pack_index:
 		current_pack_index = new_pack_idx
@@ -583,11 +706,41 @@ func apply_sync_snapshot(snap: Dictionary) -> void:
 		pack_changed.emit(current_pack)
 
 	play_mode = int(snap.get("play_mode", play_mode))
+	if play_mode != old_mode:
+		play_mode_changed.emit(play_mode)
+
+	audio_muted = bool(snap.get("audio_muted", audio_muted))
+	if audio_muted != old_muted:
+		audio_mute_changed.emit(audio_muted)
+
 	remaining_tiles = int(snap.get("remaining_tiles", remaining_tiles))
 	total_tiles = int(snap.get("total_tiles", total_tiles))
+	active_cat_idx = int(snap.get("active_cat_idx", -1))
+	active_row_idx = int(snap.get("active_row_idx", -1))
 	active_value = int(snap.get("active_value", active_value))
 	active_is_daily_double = bool(snap.get("active_is_daily_double", false))
 	active_is_final = bool(snap.get("active_is_final", false))
+	host_revealed = bool(snap.get("host_revealed", false))
+	current_wager = int(snap.get("current_wager", current_wager))
+	min_wager = int(snap.get("min_wager", min_wager))
+	max_wager = int(snap.get("max_wager", max_wager))
+	final_wager_team_cursor = int(snap.get("final_wager_team_cursor", 0))
+	final_answer_team_cursor = int(snap.get("final_answer_team_cursor", 0))
+
+	# Reconstruct cleared_tiles & active_clue from shared pack
+	cleared_tiles.clear()
+	var raw_keys: Variant = snap.get("cleared_keys", [])
+	if raw_keys is Array:
+		for k in raw_keys as Array:
+			cleared_tiles[str(k)] = true
+
+	if current_pack != null:
+		if active_is_final:
+			active_clue = current_pack.final_jeopardy
+		elif active_cat_idx >= 0 and active_row_idx >= 0:
+			active_clue = current_pack.get_clue(active_cat_idx, active_row_idx)
+		else:
+			active_clue = {}
 
 	var raw_teams: Variant = snap.get("teams", [])
 	if raw_teams is Array and not (raw_teams as Array).is_empty():
@@ -614,12 +767,25 @@ func apply_sync_snapshot(snap: Dictionary) -> void:
 	active_team_index = clampi(int(snap.get("active_team_index", 0)), 0, max(teams.size() - 1, 0))
 	teams_updated.emit(teams, active_team_index)
 
+	var raw_history: Variant = snap.get("history", null)
+	if raw_history is Array:
+		history = []
+		for h in raw_history as Array:
+			if h is Dictionary:
+				history.append((h as Dictionary).duplicate())
+		history_updated.emit(history)
+
+	var raw_result: Variant = snap.get("last_result", null)
+	if raw_result is Dictionary and not (raw_result as Dictionary).is_empty():
+		last_result = (raw_result as Dictionary).duplicate()
+
 	var new_phase := int(snap.get("phase", phase))
+	phase = new_phase
 	if new_phase != old_phase:
-		phase = new_phase
 		phase_changed.emit(new_phase, old_phase)
-	else:
-		phase = new_phase
+
+	if phase == Phase.DAILY_DOUBLE_WAGER or phase == Phase.FINAL_WAGER:
+		wager_updated.emit(current_wager, min_wager, max_wager)
 
 	apply_remote_timer_anchor(
 		float(snap.get("timer_remaining", timer_remaining)),

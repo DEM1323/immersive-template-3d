@@ -1,9 +1,14 @@
+@tool
 extends StaticBody3D
 class_name ImmersiveInteractable3D
 
 ## Reusable 3D single-touch interactable base class for 5-wall projector environments.
 ## Automatically disables its physics collision layer whenever hidden in the scene tree
 ## so inactive panels can never capture stray raycasts.
+## Runs as a @tool so subclasses can preview live in the Godot Editor; every input, physics-layer,
+## and InteractionBus side effect is skipped there so nothing leaks into the saved scene.
+
+const BUS_PATH := ^"/root/InteractionBus"
 
 signal tapped(interactable: ImmersiveInteractable3D, hit_pos: Vector3, viewport_index: int)
 signal pressed_changed(is_pressed: bool)
@@ -26,6 +31,8 @@ var _last_tap_msec: int = -10000
 
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
 	collision_mask = 0
 	_connect_bus()
 	_sync_collision_state()
@@ -37,20 +44,31 @@ func _notification(what: int) -> void:
 
 
 func _connect_bus() -> void:
-	if not InteractionBus.single_touch_tap.is_connected(_on_bus_single_touch_tap):
-		InteractionBus.single_touch_tap.connect(_on_bus_single_touch_tap)
-	if not InteractionBus.ray_enter.is_connected(_on_bus_ray_enter):
-		InteractionBus.ray_enter.connect(_on_bus_ray_enter)
-	if not InteractionBus.ray_exit.is_connected(_on_bus_ray_exit):
-		InteractionBus.ray_exit.connect(_on_bus_ray_exit)
-	if not InteractionBus.ray_click.is_connected(_on_bus_ray_click):
-		InteractionBus.ray_click.connect(_on_bus_ray_click)
-	if not InteractionBus.ray_click_release.is_connected(_on_bus_ray_click_release):
-		InteractionBus.ray_click_release.connect(_on_bus_ray_click_release)
+	if Engine.is_editor_hint():
+		return
+	# Resolved by path (not by autoload identifier) so this @tool script always compiles in the editor.
+	var bus := get_node_or_null(BUS_PATH)
+	if bus == null:
+		return
+	var handlers := {
+		&"single_touch_tap": _on_bus_single_touch_tap,
+		&"ray_enter": _on_bus_ray_enter,
+		&"ray_exit": _on_bus_ray_exit,
+		&"ray_click": _on_bus_ray_click,
+		&"ray_click_release": _on_bus_ray_click_release,
+	}
+	for bus_signal: StringName in handlers:
+		var handler: Callable = handlers[bus_signal]
+		if not bus.is_connected(bus_signal, handler):
+			bus.connect(bus_signal, handler)
 
 
 func _sync_collision_state() -> void:
-	var can_hit := interaction_enabled and is_inside_tree() and is_visible_in_tree()
+	# The editor must never serialize a runtime-computed layer, and a node outside the tree
+	# cannot be hit anyway (ENTER_TREE re-syncs it before the first physics query).
+	if Engine.is_editor_hint() or not is_inside_tree():
+		return
+	var can_hit := interaction_enabled and is_visible_in_tree()
 	collision_layer = active_collision_layer if can_hit else 0
 	if not can_hit:
 		if is_pressed:
@@ -66,7 +84,7 @@ func set_interactable_active(active: bool) -> void:
 
 
 func trigger_tap(hit_pos: Vector3 = global_position, viewport_index: int = -1) -> void:
-	if not interaction_enabled or not is_visible_in_tree():
+	if Engine.is_editor_hint() or not interaction_enabled or not is_visible_in_tree():
 		return
 	var now_msec := Time.get_ticks_msec()
 	if float(now_msec - _last_tap_msec) / 1000.0 < local_cooldown_sec:

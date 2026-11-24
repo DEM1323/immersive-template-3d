@@ -59,7 +59,7 @@ switch ($Action) {
             throw "Godot HTML5 export failed with exit code $LASTEXITCODE"
         }
 
-        Write-Host ">>> Generating separate synced walls.html and floor.html entrypoints..." -ForegroundColor Cyan
+        Write-Host ">>> Generating per-surface synced HTML entrypoints (left, center, right, back, floor, walls)..." -ForegroundColor Cyan
         $baseHtml = Get-Content $indexPath -Raw -Encoding UTF8
 
         # Kiosk hardening: auto-reload silently on WebGL context loss instead of blocking alert
@@ -78,8 +78,12 @@ window.addEventListener('DOMContentLoaded', function () {
 "@
 
         foreach ($entry in @(
-            @{ File = "walls.html"; Role = "walls"; Title = "Ephemeral Jeopardy - 4 Walls" },
-            @{ File = "floor.html"; Role = "floor"; Title = "Ephemeral Jeopardy - Floor" }
+            @{ File = "left.html"; Role = "left"; Title = "Ephemeral Jeopardy - Left Wall" },
+            @{ File = "center.html"; Role = "center"; Title = "Ephemeral Jeopardy - Center Wall" },
+            @{ File = "right.html"; Role = "right"; Title = "Ephemeral Jeopardy - Right Wall" },
+            @{ File = "back.html"; Role = "back"; Title = "Ephemeral Jeopardy - Back Wall" },
+            @{ File = "floor.html"; Role = "floor"; Title = "Ephemeral Jeopardy - Floor" },
+            @{ File = "walls.html"; Role = "walls"; Title = "Ephemeral Jeopardy - 4 Walls" }
         )) {
             $roleHtml = $baseHtml
             $roleHtml = $roleHtml -replace "<title>[^<]*</title>", "<title>$($entry.Title)</title>"

@@ -1,0 +1,183 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/jeopardy/left_wall_stage.gd" id="1_kldnu"]
+[ext_resource type="FontFile" path="res://assets/fonts/ui_font.ttf" id="2_y0olk"]
+[ext_resource type="Script" path="res://scripts/core/glass_button_3d.gd" id="3_tmwxi"]
+
+[sub_resource type="FontVariation" id="FontVariation_gmyp2"]
+base_font = ExtResource("2_y0olk")
+variation_opentype = {
+2003265652: 700
+}
+variation_embolden = 0.1
+
+[node name="LeftWallStage" type="Node3D" unique_id=923744395]
+script = ExtResource("1_kldnu")
+
+[node name="PodiumTitle" type="Label3D" parent="." unique_id=733609136]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.34, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.92, 0.98, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "TEAM PODIUMS  •  TAP TO BUZZ / SELECT"
+font = SubResource("FontVariation_gmyp2")
+font_size = 48
+outline_size = 10
+autowrap_mode = 3
+width = 2100.0
+
+[node name="StatusLabel" type="Label3D" parent="." unique_id=550609325]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.04, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.62, 0.88, 0.98, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "EPHEMERAL WONDERS  •  25 / 25 CLUES REMAINING"
+font = SubResource("FontVariation_gmyp2")
+font_size = 30
+outline_size = 10
+autowrap_mode = 3
+width = 2050.0
+
+[node name="TeamPodium_0" type="StaticBody3D" parent="." unique_id=1230236266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.34, 0.36, 0)
+script = ExtResource("3_tmwxi")
+panel_size = Vector3(1.45, 0.98, 0.09)
+primary_text = "★ AURORA"
+secondary_text = "$0"
+primary_font_size = 46
+secondary_font_size = 44
+base_color = Color(0.0448, 0.162, 0.2688, 0.92)
+rim_color = Color(0.28, 0.9, 0.96, 1)
+accent_color = Color(1, 0.88, 0.5, 1)
+text_color = Color(0.98, 0.99, 1, 1)
+highlight_amount = 1.05
+metadata/_edit_group_ = true
+
+[node name="TeamPodium_1" type="StaticBody3D" parent="." unique_id=281305970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.78, 0.36, 0)
+script = ExtResource("3_tmwxi")
+panel_size = Vector3(1.45, 0.98, 0.09)
+primary_text = "SOLARIS"
+secondary_text = "$0"
+primary_font_size = 46
+secondary_font_size = 44
+base_color = Color(0.06, 0.12, 0.25, 0.86)
+rim_color = Color(1, 0.78, 0.34, 1)
+accent_color = Color(1, 0.88, 0.5, 1)
+text_color = Color(0.98, 0.99, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="TeamPodium_2" type="StaticBody3D" parent="." unique_id=1820083313]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.78, 0.36, 0)
+script = ExtResource("3_tmwxi")
+panel_size = Vector3(1.45, 0.98, 0.09)
+primary_text = "NEBULA"
+secondary_text = "$0"
+primary_font_size = 46
+secondary_font_size = 44
+base_color = Color(0.06, 0.12, 0.25, 0.86)
+rim_color = Color(0.76, 0.46, 1, 1)
+accent_color = Color(1, 0.88, 0.5, 1)
+text_color = Color(0.98, 0.99, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="TeamPodium_3" type="StaticBody3D" parent="." unique_id=672784494]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.34, 0.36, 0)
+script = ExtResource("3_tmwxi")
+panel_size = Vector3(1.45, 0.98, 0.09)
+primary_text = "VERDANT"
+secondary_text = "$0"
+primary_font_size = 46
+secondary_font_size = 44
+base_color = Color(0.06, 0.12, 0.25, 0.86)
+rim_color = Color(0.34, 0.95, 0.66, 1)
+accent_color = Color(1, 0.88, 0.5, 1)
+text_color = Color(0.98, 0.99, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="ControlsTitle" type="Label3D" parent="." unique_id=394173990]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.05)
+pixel_size = 0.0032
+double_sided = false
+texture_filter = 5
+render_priority = 4
+modulate = Color(0.7, 0.85, 0.98, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "SANCTUARY CONTROLS"
+font = SubResource("FontVariation_gmyp2")
+font_size = 30
+outline_size = 10
+autowrap_mode = 3
+width = 1800.0
+
+[node name="NewGameButton" type="StaticBody3D" parent="." unique_id=1222050667]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.05, -0.64, 0)
+script = ExtResource("3_tmwxi")
+panel_size = Vector3(1.88, 0.4, 0.08)
+primary_text = "NEW GAME"
+secondary_text = "RESET BOARD"
+primary_font_size = 34
+base_color = Color(0.07, 0.18, 0.3, 0.9)
+rim_color = Color(0.36, 0.92, 0.86, 1)
+metadata/_edit_group_ = true
+
+[node name="ModeButton" type="StaticBody3D" parent="." unique_id=522531752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.64, 0)
+script = ExtResource("3_tmwxi")
+panel_size = Vector3(1.88, 0.4, 0.08)
+primary_text = "MODE: QUIZ"
+secondary_text = "TAP TO SWITCH"
+primary_font_size = 34
+base_color = Color(0.09, 0.14, 0.3, 0.9)
+rim_color = Color(0.76, 0.56, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="PackButton" type="StaticBody3D" parent="." unique_id=2014813269]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.05, -0.64, 0)
+script = ExtResource("3_tmwxi")
+panel_size = Vector3(1.88, 0.4, 0.08)
+primary_text = "SWITCH PACK"
+secondary_text = "EPHEMERAL WONDERS"
+primary_font_size = 34
+base_color = Color(0.08, 0.15, 0.3, 0.9)
+rim_color = Color(1, 0.82, 0.42, 1)
+metadata/_edit_group_ = true
+
+[node name="TimerPauseButton" type="StaticBody3D" parent="." unique_id=360214252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.05, -1.12, 0)
+script = ExtResource("3_tmwxi")
+panel_size = Vector3(1.88, 0.4, 0.08)
+primary_text = "PAUSE TIMER"
+secondary_text = "+ HOLD MOMENT"
+primary_font_size = 34
+base_color = Color(0.07, 0.14, 0.28, 0.9)
+rim_color = Color(0.42, 0.86, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="MuteButton" type="StaticBody3D" parent="." unique_id=375892374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.12, 0)
+script = ExtResource("3_tmwxi")
+panel_size = Vector3(1.88, 0.4, 0.08)
+primary_text = "AUDIO: ON"
+secondary_text = "TAP TO TOGGLE"
+primary_font_size = 34
+base_color = Color(0.07, 0.14, 0.28, 0.9)
+rim_color = Color(0.42, 0.86, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="FinalRoundButton" type="StaticBody3D" parent="." unique_id=1075771119]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.05, -1.12, 0)
+script = ExtResource("3_tmwxi")
+panel_size = Vector3(1.88, 0.4, 0.08)
+primary_text = "FINAL ROUND"
+secondary_text = "THE LAST ECHO"
+primary_font_size = 34
+base_color = Color(0.14, 0.11, 0.3, 0.9)
+rim_color = Color(1, 0.78, 0.36, 1)
+metadata/_edit_group_ = true

@@ -1,13 +1,27 @@
 extends RefCounted
 class_name RoomRole
 
-## Resolves whether this instance runs all 5 cameras, the 4 wall projectors only
-## (Left/Center/Right/Back), or the Floor projector only.
+## Resolves which projector camera(s) this instance renders and whether it runs as
+## standalone, authoritative host, or synced replica.
+##
+## Per-projector URLs:
+##   left.html   -> LEFT_ONLY   (replica, renders Left Wall -X)
+##   center.html -> CENTER_ONLY (authoritative host, renders Center Wall -Z, owns audio)
+##   right.html  -> RIGHT_ONLY  (replica, renders Right Wall +X)
+##   back.html   -> BACK_ONLY   (replica, renders Back Wall +Z)
+##   floor.html  -> FLOOR_ONLY  (replica, renders Floor -Y)
+## Combined URLs:
+##   walls.html  -> WALLS_4     (authoritative host, renders Left/Center/Right/Back)
+##   index.html  -> ALL_5       (standalone, renders all 5 cameras)
 
 enum Role {
 	ALL_5,
 	WALLS_4,
 	FLOOR_ONLY,
+	LEFT_ONLY,
+	CENTER_ONLY,
+	RIGHT_ONLY,
+	BACK_ONLY,
 }
 
 const DEFAULT_CHANNEL := "immersive_ephemeral_jeopardy_v1"
@@ -15,7 +29,15 @@ const DEFAULT_ROOM := "default"
 
 
 static func detect_role(override_role: int = -1) -> int:
-	if override_role in [Role.ALL_5, Role.WALLS_4, Role.FLOOR_ONLY]:
+	if override_role in [
+		Role.ALL_5,
+		Role.WALLS_4,
+		Role.FLOOR_ONLY,
+		Role.LEFT_ONLY,
+		Role.CENTER_ONLY,
+		Role.RIGHT_ONLY,
+		Role.BACK_ONLY,
+	]:
 		return override_role
 
 	# 1. Web browser URL ?role= or window.__IMMERSIVE_ROLE__ global
@@ -28,7 +50,7 @@ static func detect_role(override_role: int = -1) -> int:
 		if parsed != -1:
 			return parsed
 
-	# 2. Command-line / GODOT_CONFIG.args (--role=walls | --role=floor | --role=all)
+	# 2. Command-line / GODOT_CONFIG.args (--role=left|center|right|back|floor|walls|all)
 	for arg in OS.get_cmdline_user_args():
 		var parsed := _parse_role_arg(arg)
 		if parsed != -1:
@@ -39,12 +61,28 @@ static func detect_role(override_role: int = -1) -> int:
 			return parsed
 
 	# 3. Export feature tag fallback
+	if OS.has_feature("left_only"):
+		return Role.LEFT_ONLY
+	if OS.has_feature("center_only"):
+		return Role.CENTER_ONLY
+	if OS.has_feature("right_only"):
+		return Role.RIGHT_ONLY
+	if OS.has_feature("back_only"):
+		return Role.BACK_ONLY
 	if OS.has_feature("floor_only"):
 		return Role.FLOOR_ONLY
 	if OS.has_feature("walls_only"):
 		return Role.WALLS_4
 
 	return Role.ALL_5
+
+
+static func is_sync_enabled(role: int) -> bool:
+	return role != Role.ALL_5
+
+
+static func is_authoritative_host(role: int) -> bool:
+	return role == Role.ALL_5 or role == Role.WALLS_4 or role == Role.CENTER_ONLY
 
 
 static func detect_room_id() -> String:
@@ -65,16 +103,38 @@ static func detect_room_id() -> String:
 	return DEFAULT_ROOM
 
 
+static func resolve_ws_url(explicit_param: String, protocol: String, host: String) -> String:
+	var explicit := explicit_param.strip_edges()
+	if not explicit.is_empty():
+		var lowered := explicit.to_lower()
+		if lowered in ["none", "off", "false"]:
+			return ""
+		return explicit
+
+	var trimmed_host := host.strip_edges()
+	if trimmed_host.is_empty():
+		return ""
+
+	var hostname := _extract_hostname(trimmed_host)
+	if not _is_local_or_lan_host(hostname):
+		return ""
+
+	var ws_proto := "wss:" if protocol.strip_edges().to_lower() == "https:" else "ws:"
+	return "%s//%s/ws" % [ws_proto, trimmed_host]
+
+
 static func detect_ws_url() -> String:
-	# Explicit ?ws= query override on Web, or automatic same-origin ws(s)://<host>/ws only
-	# when served from a local/LAN host (static public hosts like *.github.io have no /ws relay).
 	if OS.has_feature("web"):
 		var explicit := _read_web_string(
 			"(function(){try{return new URLSearchParams(window.location.search).get('ws')||'';}"
 			+ "catch(e){return '';}})()"
 		)
-		var protocol := _read_web_string("(function(){try{return window.location.protocol||'';}catch(e){return '';}})()")
-		var host := _read_web_string("(function(){try{return window.location.host||'';}catch(e){return '';}})()")
+		var protocol := _read_web_string(
+			"(function(){try{return window.location.protocol||'';}catch(e){return '';}})()"
+		)
+		var host := _read_web_string(
+			"(function(){try{return window.location.host||'';}catch(e){return '';}})()"
+		)
 		return resolve_ws_url(explicit, protocol, host)
 
 	for arg in OS.get_cmdline_user_args():
@@ -84,74 +144,38 @@ static func detect_ws_url() -> String:
 	return ""
 
 
-## Pure helper: decides which WebSocket relay URL (if any) to use.
-## - explicit_param "none"/"off"/"false" (any case) disables WebSocket sync.
-## - Any other non-empty explicit_param is returned verbatim (e.g. a wss:// relay).
-## - Otherwise auto-connect to same-origin ws(s)://<host>/ws only for local/LAN hosts.
-static func resolve_ws_url(explicit_param: String, protocol: String, host: String) -> String:
-	var explicit := explicit_param.strip_edges()
-	if explicit.to_lower() in ["none", "off", "false"]:
-		return ""
-	if not explicit.is_empty():
-		return explicit
-
-	var clean_host := host.strip_edges()
-	if clean_host.is_empty() or not is_local_hostname(_hostname_from_host(clean_host)):
-		return ""
-	var scheme := "wss:" if protocol.strip_edges().to_lower() == "https:" else "ws:"
-	return "%s//%s/ws" % [scheme, clean_host]
-
-
-static func is_local_hostname(hostname: String) -> bool:
-	var h := hostname.strip_edges().to_lower()
-	if h.is_empty():
-		return false
-	if h in ["localhost", "127.0.0.1", "[::1]", "::1"]:
-		return true
-	if h.ends_with(".local") or h.ends_with(".localhost"):
-		return true
-	var parts := h.split(".")
-	if parts.size() != 4:
-		return false
-	for part in parts:
-		if not part.is_valid_int():
-			return false
-	var a := int(parts[0])
-	var b := int(parts[1])
-	if a == 127 or a == 10:
-		return true
-	if a == 192 and b == 168:
-		return true
-	return a == 172 and b >= 16 and b <= 31
-
-
-static func _hostname_from_host(host: String) -> String:
-	# Strip an optional :port suffix, keeping bracketed IPv6 literals like [::1]:8080 intact.
-	if host.begins_with("["):
-		var close := host.find("]")
-		return host if close == -1 else host.substr(0, close + 1)
-	var colon := host.find(":")
-	if colon != -1 and host.count(":") == 1:
-		return host.substr(0, colon)
-	return host
-
-
 static func role_to_string(role: int) -> String:
 	match role:
-		Role.WALLS_4:
-			return "walls"
+		Role.LEFT_ONLY:
+			return "left"
+		Role.CENTER_ONLY:
+			return "center"
+		Role.RIGHT_ONLY:
+			return "right"
+		Role.BACK_ONLY:
+			return "back"
 		Role.FLOOR_ONLY:
 			return "floor"
+		Role.WALLS_4:
+			return "walls"
 		_:
 			return "all"
 
 
 static func parse_role_string(raw: String) -> int:
 	match raw.strip_edges().to_lower():
-		"walls", "walls_4", "4walls", "host":
-			return Role.WALLS_4
+		"left", "left_only":
+			return Role.LEFT_ONLY
+		"center", "center_only", "main":
+			return Role.CENTER_ONLY
+		"right", "right_only":
+			return Role.RIGHT_ONLY
+		"back", "back_only":
+			return Role.BACK_ONLY
 		"floor", "floor_only", "client":
 			return Role.FLOOR_ONLY
+		"walls", "walls_4", "4walls", "host":
+			return Role.WALLS_4
 		"all", "all_5", "5walls":
 			return Role.ALL_5
 		_:
@@ -162,6 +186,46 @@ static func _parse_role_arg(arg: String) -> int:
 	if arg.begins_with("--role="):
 		return parse_role_string(arg.substr(7))
 	return -1
+
+
+static func _extract_hostname(host_with_port: String) -> String:
+	var h := host_with_port.strip_edges().to_lower()
+	if h.begins_with("["):
+		var close_idx := h.find("]")
+		if close_idx != -1:
+			return h.substr(1, close_idx - 1)
+		return h
+	var colon_idx := h.rfind(":")
+	if colon_idx != -1 and h.find(":") == colon_idx:
+		return h.substr(0, colon_idx)
+	return h
+
+
+static func _is_local_or_lan_host(hostname: String) -> bool:
+	if hostname.is_empty():
+		return false
+	if hostname == "localhost" or hostname == "::1" or hostname.ends_with(".local"):
+		return true
+
+	var octets := hostname.split(".")
+	if octets.size() != 4:
+		return false
+	var nums: Array[int] = []
+	for part in octets:
+		if part.is_empty() or not part.is_valid_int():
+			return false
+		var val := int(part)
+		if val < 0 or val > 255:
+			return false
+		nums.append(val)
+
+	if nums[0] == 127 or nums[0] == 10:
+		return true
+	if nums[0] == 192 and nums[1] == 168:
+		return true
+	if nums[0] == 172 and nums[1] >= 16 and nums[1] <= 31:
+		return true
+	return false
 
 
 static func _read_web_string(js_expr: String) -> String:

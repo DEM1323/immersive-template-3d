@@ -1,3 +1,4 @@
+@tool
 extends GlassButton3D
 class_name JeopardyTile3D
 
@@ -6,47 +7,77 @@ class_name JeopardyTile3D
 
 signal tile_tapped(cat_idx: int, row_idx: int, tile: JeopardyTile3D)
 
-var cat_idx: int = 0
-var row_idx: int = 0
-var clue_value: int = 200
+const TILE_SIZE := Vector3(1.18, 0.36, 0.08)
+const TILE_FONT_SIZE := 68
+const TILE_TEXT_COLOR := Color(1.0, 0.92, 0.66, 1.0)
+const TILE_GOLD := Color(1.0, 0.86, 0.46, 1.0)
+const GHOST_TEXT := "•"
+
+## Board column (0 = leftmost category). Play Mode opens pack clue [cat_idx][row_idx].
+@export var cat_idx: int = 0
+## Board row (0 = top).
+@export var row_idx: int = 0
+## Dollar value shown on the tile. The loaded question pack supplies the live value in Play Mode.
+@export var clue_value: int = 200:
+	set(value):
+		clue_value = value
+		# Skipped while the scene loads so a hand-edited primary_text survives reopening.
+		if is_node_ready():
+			primary_text = "$%d" % clue_value
+
 var is_cleared: bool = false
 
 var _dissolve_tween: Tween = null
 var _burst_particles: CPUParticles3D = null
 
 
+func _ready() -> void:
+	super._ready()
+	if Engine.is_editor_hint():
+		return
+	if not tapped.is_connected(_on_self_tapped):
+		tapped.connect(_on_self_tapped)
+
+
+## Styles a brand-new tile (default size, type scale, and idle-float rhythm) and loads its clue.
+## Use apply_clue_data() to refresh a tile that was already placed in a scene.
 func setup_tile(p_cat: int, p_row: int, p_value: int, p_accent: Color) -> void:
+	if owner == null:
+		panel_size = TILE_SIZE
+		primary_font_size = TILE_FONT_SIZE
+		enable_idle_float = true
+		float_amplitude = 0.011
+		float_speed = snappedf(1.2 + float(p_cat) * 0.11 + float(p_row) * 0.08, 0.01)
+	_ensure_built()
+	apply_clue_data(p_cat, p_row, p_value, p_accent)
+
+
+## Updates value, palette, and cleared state while leaving the saved transform, panel_size,
+## font size, and float settings exactly as authored in the Godot Editor.
+func apply_clue_data(p_cat: int, p_row: int, p_value: int, p_accent: Color) -> void:
+	if _dissolve_tween != null and _dissolve_tween.is_valid():
+		_dissolve_tween.kill()
+	_dissolve_tween = null
+
 	cat_idx = p_cat
 	row_idx = p_row
 	clue_value = p_value
 	is_cleared = false
 
 	var depth_tint := lerpf(0.0, 0.06, float(p_row) / 4.0)
-	var tile_base := Color(0.055 + depth_tint * 0.4, 0.11 + depth_tint * 0.5, 0.25 + depth_tint, 0.88)
-	var tile_rim := p_accent.lerp(Color(0.45, 0.90, 1.0, 1.0), 0.45)
-	var gold := Color(1.0, 0.86, 0.46, 1.0)
-
-	configure(
-		Vector3(1.18, 0.36, 0.08),
-		"$%d" % p_value,
-		"",
-		68,
-		tile_base,
-		tile_rim,
-		gold,
+	set_palette(
+		Color(0.055 + depth_tint * 0.4, 0.11 + depth_tint * 0.5, 0.25 + depth_tint, 0.88),
+		p_accent.lerp(Color(0.45, 0.90, 1.0, 1.0), 0.45),
+		TILE_GOLD,
+		TILE_TEXT_COLOR,
 	)
-	text_color = Color(1.0, 0.92, 0.66, 1.0)
-	_refresh_labels()
-	enable_idle_float = true
-	float_amplitude = 0.011
-	float_speed = 1.2 + float(p_cat) * 0.11 + float(p_row) * 0.08
+	_set_shimmer_phase(0.0)  # Board tiles shimmer in unison
+	set_texts("$%d" % p_value, "")
 	set_dissolve(0.0)
 	set_ghost(0.0)
 	set_interactable_active(true)
-	_ensure_particles(p_accent)
-
-	if not tapped.is_connected(_on_self_tapped):
-		tapped.connect(_on_self_tapped)
+	if not Engine.is_editor_hint():
+		_ensure_particles(p_accent)
 
 
 func _ensure_particles(p_accent: Color) -> void:
@@ -100,7 +131,7 @@ func play_dissolve_to_ghost(was_correct: bool) -> void:
 	_dissolve_tween.tween_callback(func() -> void:
 		set_dissolve(0.0)
 		set_ghost(1.0)
-		set_texts("•", "")
+		set_texts(GHOST_TEXT, "")
 	)
 
 
@@ -109,4 +140,4 @@ func set_cleared_immediate() -> void:
 	set_interactable_active(false)
 	set_dissolve(0.0)
 	set_ghost(1.0)
-	set_texts("•", "")
+	set_texts(GHOST_TEXT, "")

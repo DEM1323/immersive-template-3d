@@ -1,45 +1,46 @@
 [gd_scene format=3]
 
-[ext_resource type="PackedScene" path="res://Player.tscn" id="1_player"]
-[ext_resource type="Script" path="res://scripts/jeopardy/ephemeral_jeopardy_controller.gd" id="2_ctrl"]
-[ext_resource type="Script" path="res://scripts/jeopardy/jeopardy_game_state.gd" id="3_state"]
-[ext_resource type="Script" path="res://scripts/jeopardy/audio_manager.gd" id="4_audio"]
-[ext_resource type="Script" path="res://scripts/jeopardy/sanctuary_environment.gd" id="5_env"]
-[ext_resource type="Script" path="res://scripts/jeopardy/center_wall_stage.gd" id="6_center"]
-[ext_resource type="Script" path="res://scripts/jeopardy/left_wall_stage.gd" id="7_left"]
-[ext_resource type="Script" path="res://scripts/jeopardy/right_wall_stage.gd" id="8_right"]
-[ext_resource type="Script" path="res://scripts/jeopardy/back_wall_stage.gd" id="9_back"]
-[ext_resource type="Script" path="res://scripts/jeopardy/floor_stage.gd" id="10_floor"]
+[ext_resource type="Script" path="res://scripts/jeopardy/ephemeral_jeopardy_controller.gd" id="1_reuum"]
+[ext_resource type="PackedScene" path="res://Player.tscn" id="2_8ivta"]
+[ext_resource type="Script" path="res://scripts/jeopardy/jeopardy_game_state.gd" id="3_xow87"]
+[ext_resource type="Script" path="res://scripts/jeopardy/audio_manager.gd" id="4_l2m8s"]
+[ext_resource type="PackedScene" path="res://scenes/jeopardy/SanctuaryEnvironment.tscn" id="5_vw2df"]
+[ext_resource type="PackedScene" path="res://scenes/jeopardy/CenterWallStage.tscn" id="6_uswcs"]
+[ext_resource type="PackedScene" path="res://scenes/jeopardy/LeftWallStage.tscn" id="7_mwujb"]
+[ext_resource type="PackedScene" path="res://scenes/jeopardy/RightWallStage.tscn" id="8_ybxqu"]
+[ext_resource type="PackedScene" path="res://scenes/jeopardy/BackWallStage.tscn" id="9_gtnrt"]
+[ext_resource type="PackedScene" path="res://scenes/jeopardy/FloorStage.tscn" id="10_yupqe"]
 
-[node name="EphemeralJeopardyWorld" type="Node3D"]
-script = ExtResource("2_ctrl")
+[node name="EphemeralJeopardyWorld" type="Node3D" unique_id=492326338]
+script = ExtResource("1_reuum")
 
-[node name="Player" parent="." instance=ExtResource("1_player")]
+[node name="Player" parent="." unique_id=1866686625 instance=ExtResource("2_8ivta")]
 
-[node name="JeopardyGameState" type="Node" parent="."]
-script = ExtResource("3_state")
+[node name="JeopardyGameState" type="Node" parent="." unique_id=1451921152]
+script = ExtResource("3_xow87")
 
-[node name="EphemeralAudioManager" type="Node" parent="."]
-script = ExtResource("4_audio")
+[node name="EphemeralAudioManager" type="Node" parent="." unique_id=1395888707]
+script = ExtResource("4_l2m8s")
 
-[node name="SanctuaryEnvironment" type="Node3D" parent="."]
-script = ExtResource("5_env")
+[node name="SanctuaryEnvironment" parent="." unique_id=284135033 instance=ExtResource("5_vw2df")]
 
-[node name="CenterWallStage" type="Node3D" parent="."]
+[node name="CenterWallStage" parent="." unique_id=929646817 instance=ExtResource("6_uswcs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4)
-script = ExtResource("6_center")
 
-[node name="LeftWallStage" type="Node3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4, 1.5, 0)
-script = ExtResource("7_left")
+[node name="LeftWallStage" parent="." unique_id=923744395 instance=ExtResource("7_mwujb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4, 1.5, 0)
 
-[node name="RightWallStage" type="Node3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4, 1.5, 0)
-script = ExtResource("8_right")
+[node name="RightWallStage" parent="." unique_id=1694267122 instance=ExtResource("8_ybxqu")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4, 1.5, 0)
 
-[node name="BackWallStage" type="Node3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 4)
-script = ExtResource("9_back")
+[node name="BackWallStage" parent="." unique_id=2091033570 instance=ExtResource("9_gtnrt")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.5, 4)
 
-[node name="FloorStage" type="Node3D" parent="."]
-script = ExtResource("10_floor")
+[node name="FloorStage" parent="." unique_id=1618708404 instance=ExtResource("10_yupqe")]
+
+[editable path="SanctuaryEnvironment"]
+[editable path="CenterWallStage"]
+[editable path="LeftWallStage"]
+[editable path="RightWallStage"]
+[editable path="BackWallStage"]
+[editable path="FloorStage"]

@@ -4,6 +4,8 @@ class_name BackWallStage
 ## Back Wall Projection Stage (+Z, at (0.0, 1.5, +4.0), rotated 180 deg Y).
 ## Acts as a radiant 360-degree Spectator Mirror, Live Leaderboard, and quick
 ## back-of-room participation console (Cycle Team / Continue / New Game).
+##
+## All nodes live in BackWallStage.tscn; the script binds to them and never moves hand-placed ones.
 
 var game_state: JeopardyGameState
 var audio: EphemeralAudioManager
@@ -12,13 +14,15 @@ var _header_label: Label3D
 var _main_label: Label3D
 var _sub_label: Label3D
 var _primary_action_btn: GlassButton3D
-var _buzz_cycle_btn: GlassButton3D
 
 
 func initialize(p_state: JeopardyGameState, p_audio: EphemeralAudioManager) -> void:
 	game_state = p_state
 	audio = p_audio
-	_build_layout()
+	if not _bind_nodes():
+		build_default_nodes(null)
+		_bind_nodes()
+	_wire_buttons()
 	_connect_signals()
 	_refresh_view()
 
@@ -32,80 +36,85 @@ func _connect_signals() -> void:
 	game_state.pack_changed.connect(func(_p) -> void: _refresh_view())
 
 
-func _build_layout() -> void:
-	_header_label = CenterWallStage._make_label(
-		"EPHEMERAL JEOPARDY  •  SANCTUARY MIRROR",
+func _bind_nodes() -> bool:
+	_header_label = get_node_or_null("HeaderLabel") as Label3D
+	_main_label = get_node_or_null("MainLabel") as Label3D
+	_sub_label = get_node_or_null("SubLabel") as Label3D
+	_primary_action_btn = get_node_or_null("PrimaryActionBtn") as GlassButton3D
+	var required: Array[Node] = [_header_label, _main_label, _sub_label, _primary_action_btn]
+	return CenterWallStage.all_present(required)
+
+
+func _wire_buttons() -> void:
+	CenterWallStage.wire_button(self, "SwitchTeamBtn", func() -> void:
+		audio.play_sfx("tap")
+		game_state.cycle_active_team()
+	)
+	CenterWallStage.wire_button(self, "PrimaryActionBtn", _on_primary_action_tapped)
+
+
+## Creates every missing stage node. Existing nodes are never touched, so manual edits survive.
+## Pass the scene root as owner_root to make the nodes saveable; pass null for a code-only instance.
+func build_default_nodes(owner_root: Node) -> void:
+	CenterWallStage.ensure_label(
+		self,
+		owner_root,
+		"HeaderLabel",
+		"EPHEMERAL JEOPARDY  •  360° IMMERSIVE SANCTUARY",
 		48,
 		Color(0.86, 0.96, 1.0),
 		Vector3(0.0, 1.30, 0.05),
 		2100.0,
 	)
-	add_child(_header_label)
-
-	var panel := GlassButton3D.new()
-	panel.position = Vector3(0.0, 0.24, -0.02)
-	panel.configure(
-		Vector3(5.90, 1.50, 0.08),
-		"",
-		"",
-		40,
-		Color(0.05, 0.11, 0.24, 0.88),
-		Color(0.56, 0.72, 1.0, 1.0),
-		Color(1.0, 0.84, 0.44, 1.0),
-	)
-	panel.enable_idle_float = false
-	panel.set_interactable_active(false)
-	add_child(panel)
-
-	_main_label = CenterWallStage._make_label(
-		"WELCOME TO THE SANCTUARY",
+	CenterWallStage.ensure_button(self, owner_root, "MirrorBackdrop", Vector3(0.0, 0.24, -0.02), {
+		"panel_size": Vector3(5.90, 1.50, 0.08),
+		"primary_text": "",
+		"primary_font_size": 40,
+		"base_color": Color(0.05, 0.11, 0.24, 0.88),
+		"rim_color": Color(0.56, 0.72, 1.0, 1.0),
+		"accent_color": Color(1.0, 0.84, 0.44, 1.0),
+		"enable_idle_float": false,
+		"interaction_enabled": false,
+	})
+	CenterWallStage.ensure_label(
+		self,
+		owner_root,
+		"MainLabel",
+		"EPHEMERAL WONDERS",
 		58,
 		Color(0.98, 0.99, 1.0),
 		Vector3(0.0, 0.44, 0.08),
 		1800.0,
 	)
-	add_child(_main_label)
-
-	_sub_label = CenterWallStage._make_label(
-		"Step inside and touch any luminous monolith.",
+	CenterWallStage.ensure_label(
+		self,
+		owner_root,
+		"SubLabel",
+		"Face the Center Wall to configure teams & begin,\nor tap START right here.",
 		38,
 		Color(0.76, 0.90, 1.0),
 		Vector3(0.0, -0.18, 0.08),
 		1780.0,
 	)
-	add_child(_sub_label)
-
-	_buzz_cycle_btn = GlassButton3D.new()
-	_buzz_cycle_btn.position = Vector3(-1.45, -0.96, 0.04)
-	_buzz_cycle_btn.configure(
-		Vector3(2.55, 0.46, 0.09),
-		"SWITCH ACTIVE TEAM",
-		"BACK WALL BUZZ",
-		38,
-		Color(0.08, 0.15, 0.30, 0.90),
-		Color(0.42, 0.90, 1.0, 1.0),
-	)
-	_buzz_cycle_btn.tapped.connect(func(_b, _p, _v) -> void:
-		audio.play_sfx("tap")
-		game_state.cycle_active_team()
-	)
-	add_child(_buzz_cycle_btn)
-
-	_primary_action_btn = GlassButton3D.new()
-	_primary_action_btn.position = Vector3(1.45, -0.96, 0.04)
-	_primary_action_btn.configure(
-		Vector3(2.55, 0.46, 0.09),
-		"BEGIN / CONTINUE",
-		"SYNC WITH CENTER",
-		38,
-		Color(0.10, 0.21, 0.34, 0.92),
-		Color(1.0, 0.84, 0.44, 1.0),
-	)
-	_primary_action_btn.tapped.connect(_on_primary_action_tapped)
-	add_child(_primary_action_btn)
+	CenterWallStage.ensure_button(self, owner_root, "SwitchTeamBtn", Vector3(-1.45, -0.96, 0.04), {
+		"panel_size": Vector3(2.55, 0.46, 0.09),
+		"primary_text": "SWITCH ACTIVE TEAM",
+		"secondary_text": "BACK WALL BUZZ",
+		"primary_font_size": 38,
+		"base_color": Color(0.08, 0.15, 0.30, 0.90),
+		"rim_color": Color(0.42, 0.90, 1.0, 1.0),
+	})
+	CenterWallStage.ensure_button(self, owner_root, "PrimaryActionBtn", Vector3(1.45, -0.96, 0.04), {
+		"panel_size": Vector3(2.55, 0.46, 0.09),
+		"primary_text": "START GAME",
+		"secondary_text": "ILLUMINATE BOARD",
+		"primary_font_size": 38,
+		"base_color": Color(0.10, 0.21, 0.34, 0.92),
+		"rim_color": Color(1.0, 0.84, 0.44, 1.0),
+	})
 
 
-func _on_primary_action_tapped(_b: ImmersiveInteractable3D, _p: Vector3, _v: int) -> void:
+func _on_primary_action_tapped() -> void:
 	audio.play_sfx("tap")
 	match game_state.phase:
 		JeopardyGameState.Phase.SETUP, JeopardyGameState.Phase.GAME_OVER:

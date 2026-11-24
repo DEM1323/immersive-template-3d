@@ -10,6 +10,10 @@ enum DisplayMode {
 	ALL_5,
 	WALLS_4,
 	FLOOR_ONLY,
+	LEFT_ONLY,
+	CENTER_ONLY,
+	RIGHT_ONLY,
+	BACK_ONLY,
 }
 
 # gdlint:disable=class-variable-name
@@ -118,20 +122,36 @@ func set_display_mode(mode: int) -> void:
 
 func get_active_viewport_indices() -> Array[int]:
 	match display_mode:
-		DisplayMode.WALLS_4:
-			return [0, 1, 2, 3]
+		DisplayMode.LEFT_ONLY:
+			return [0]
+		DisplayMode.CENTER_ONLY:
+			return [1]
+		DisplayMode.RIGHT_ONLY:
+			return [2]
+		DisplayMode.BACK_ONLY:
+			return [3]
 		DisplayMode.FLOOR_ONLY:
 			return [4]
+		DisplayMode.WALLS_4:
+			return [0, 1, 2, 3]
 		_:
 			return [0, 1, 2, 3, 4]
 
 
 func get_display_mode_name() -> String:
 	match display_mode:
-		DisplayMode.WALLS_4:
-			return "4-WALLS"
+		DisplayMode.LEFT_ONLY:
+			return "LEFT"
+		DisplayMode.CENTER_ONLY:
+			return "CENTER"
+		DisplayMode.RIGHT_ONLY:
+			return "RIGHT"
+		DisplayMode.BACK_ONLY:
+			return "BACK"
 		DisplayMode.FLOOR_ONLY:
 			return "FLOOR"
+		DisplayMode.WALLS_4:
+			return "4-WALLS"
 		_:
 			return "5-WALL"
 

@@ -1,0 +1,125 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/jeopardy/floor_stage.gd" id="1_rtx2o"]
+[ext_resource type="Shader" path="res://shaders/floor_mandala.gdshader" id="2_3x6jw"]
+[ext_resource type="Script" path="res://scripts/core/immersive_interactable_3d.gd" id="3_4ds0r"]
+[ext_resource type="FontFile" path="res://assets/fonts/ui_font.ttf" id="4_ij8pf"]
+[ext_resource type="Script" path="res://scripts/core/glass_button_3d.gd" id="5_6mg5x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gu36v"]
+render_priority = -8
+shader = ExtResource("2_3x6jw")
+
+[sub_resource type="QuadMesh" id="QuadMesh_0ytcc"]
+size = Vector2(6.4, 6.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_smgm6"]
+size = Vector3(6.4, 0.04, 6.4)
+
+[sub_resource type="FontVariation" id="FontVariation_gmyp2"]
+base_font = ExtResource("4_ij8pf")
+variation_opentype = {
+2003265652: 700
+}
+variation_embolden = 0.1
+
+[node name="FloorStage" type="Node3D" unique_id=1618708404]
+script = ExtResource("1_rtx2o")
+
+[node name="MandalaPlane" type="MeshInstance3D" parent="." unique_id=1900057541]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.005, 0)
+material_override = SubResource("ShaderMaterial_gu36v")
+mesh = SubResource("QuadMesh_0ytcc")
+
+[node name="FloorRippleSurface" type="StaticBody3D" parent="." unique_id=923422658]
+script = ExtResource("3_4ds0r")
+local_cooldown_sec = 0.08
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorRippleSurface" unique_id=1921051595]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
+shape = SubResource("BoxShape3D_smgm6")
+
+[node name="CenterLabel" type="Label3D" parent="." unique_id=2017435597]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.04, 0)
+pixel_size = 0.0022
+double_sided = false
+texture_filter = 5
+render_priority = 7
+modulate = Color(0.95, 0.99, 1, 1)
+outline_modulate = Color(0.02, 0.04, 0.1, 0.92)
+text = "EPHEMERAL
+SANCTUARY"
+font = SubResource("FontVariation_gmyp2")
+font_size = 36
+outline_size = 10
+autowrap_mode = 3
+width = 850.0
+
+[node name="FloorTeamPad_0" type="StaticBody3D" parent="." unique_id=527001036]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.96, 0.035, -0.44)
+script = ExtResource("5_6mg5x")
+panel_size = Vector3(0.74, 0.34, 0.03)
+primary_text = "AURORA"
+secondary_text = "$0"
+primary_font_size = 36
+secondary_font_size = 28
+base_color = Color(0.0504, 0.17999999, 0.288, 0.9)
+rim_color = Color(0.28, 0.9, 0.96, 1)
+accent_color = Color(1, 0.86, 0.44, 1)
+text_color = Color(0.98, 0.99, 1, 1)
+highlight_amount = 1.0
+enable_idle_float = false
+panel_render_priority = 3
+label_render_priority = 6
+metadata/_edit_group_ = true
+
+[node name="FloorTeamPad_1" type="StaticBody3D" parent="." unique_id=1973589859]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.96, 0.035, -0.44)
+script = ExtResource("5_6mg5x")
+panel_size = Vector3(0.74, 0.34, 0.03)
+primary_text = "SOLARIS"
+secondary_text = "$0"
+primary_font_size = 36
+secondary_font_size = 28
+base_color = Color(0.05, 0.11, 0.24, 0.85)
+rim_color = Color(1, 0.78, 0.34, 1)
+accent_color = Color(1, 0.86, 0.44, 1)
+text_color = Color(0.98, 0.99, 1, 1)
+enable_idle_float = false
+panel_render_priority = 3
+label_render_priority = 6
+metadata/_edit_group_ = true
+
+[node name="FloorTeamPad_2" type="StaticBody3D" parent="." unique_id=1554338472]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.96, 0.035, 0.44)
+script = ExtResource("5_6mg5x")
+panel_size = Vector3(0.74, 0.34, 0.03)
+primary_text = "NEBULA"
+secondary_text = "$0"
+primary_font_size = 36
+secondary_font_size = 28
+base_color = Color(0.05, 0.11, 0.24, 0.85)
+rim_color = Color(0.76, 0.46, 1, 1)
+accent_color = Color(1, 0.86, 0.44, 1)
+text_color = Color(0.98, 0.99, 1, 1)
+enable_idle_float = false
+panel_render_priority = 3
+label_render_priority = 6
+metadata/_edit_group_ = true
+
+[node name="FloorTeamPad_3" type="StaticBody3D" parent="." unique_id=500099927]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.96, 0.035, 0.44)
+script = ExtResource("5_6mg5x")
+panel_size = Vector3(0.74, 0.34, 0.03)
+primary_text = "VERDANT"
+secondary_text = "$0"
+primary_font_size = 36
+secondary_font_size = 28
+base_color = Color(0.05, 0.11, 0.24, 0.85)
+rim_color = Color(0.34, 0.95, 0.66, 1)
+accent_color = Color(1, 0.86, 0.44, 1)
+text_color = Color(0.98, 0.99, 1, 1)
+enable_idle_float = false
+panel_render_priority = 3
+label_render_priority = 6
+metadata/_edit_group_ = true

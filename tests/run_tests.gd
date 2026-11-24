@@ -35,8 +35,9 @@ func _run() -> void:
 	_state.free()
 
 	await _run_case("World visibility, collisions, and single-touch tap", _test_world_integration)
-	await _run_case("Split display modes (ALL_5, WALLS_4, FLOOR_ONLY)", _test_display_modes)
-	await _run_case("Walls host <-> Floor replica sync & deduplication", _test_split_floor_sync)
+	await _run_case("Editor-visible baked scene nodes before _ready()", _test_editor_baked_scenes)
+	await _run_case("Split display modes (all 7 surface roles)", _test_display_modes)
+	await _run_case("Center host <-> Left/Right/Back/Floor sync & deduplication", _test_split_floor_sync)
 	await _run_case("WebSocket relay URL resolution (local, LAN, static hosts)", _test_ws_url_resolution)
 	print("RESULT  %d passed, %d failed" % [_passed, _failed])
 	quit(0 if _failed == 0 else 1)
@@ -428,6 +429,35 @@ func _emit_center_tap(bus: Node, tile: StaticBody3D) -> void:
 	bus.emit_signal(&"single_touch_tap", tile, tile.global_position, Vector3.BACK, 1)
 
 
+func _test_editor_baked_scenes() -> bool:
+	var scene := load(WORLD_SCENE) as PackedScene
+	if not _expect(scene != null, "EphemeralJeopardyWorld.tscn must load"):
+		return false
+	# Instantiate WITHOUT adding to SceneTree (so _ready() has NOT run!) to verify editor visibility
+	var world := scene.instantiate()
+	if not _expect(world != null, "EphemeralJeopardyWorld.tscn must instantiate"):
+		return false
+	var required_paths := [
+		"SanctuaryEnvironment/SanctuaryWorldEnvironment",
+		"SanctuaryEnvironment/CornerPillar_0",
+		"SanctuaryEnvironment/AuroraRibbon_0",
+		"CenterWallStage/SetupGroup/BeginGameButton",
+		"CenterWallStage/BoardGroup/CategoryHeader_0",
+		"CenterWallStage/BoardGroup/Tile_0_0",
+		"CenterWallStage/BoardGroup/Tile_4_4",
+		"CenterWallStage/ClueGroup/QuizChoices",
+		"LeftWallStage/TeamPodium_0",
+		"RightWallStage/ChronicleGroup",
+		"BackWallStage/PrimaryActionBtn",
+		"FloorStage/MandalaPlane",
+		"FloorStage/FloorTeamPad_0",
+	]
+	for p in required_paths:
+		_expect(world.get_node_or_null(p) != null, "Baked editor node missing before _ready(): %s" % p)
+	world.free()
+	return true
+
+
 func _test_display_modes() -> bool:
 	var scene := load(PLAYER_SCENE) as PackedScene
 	if not _expect(scene != null, "Player.tscn must load for display mode test"):
@@ -436,21 +466,27 @@ func _test_display_modes() -> bool:
 	root.add_child(player)
 	var containers: Array = player.call("get_subviewport_containers")
 
-	player.call("set_display_mode", 0)  # ALL_5
-	_expect(player.get("Viewports") == 5, "Viewports invariant must remain 5 in ALL_5")
-	for i in range(5):
-		_expect(containers[i].visible, "ALL_5 must show slot %d" % i)
-
-	player.call("set_display_mode", 1)  # WALLS_4
-	_expect(player.get("Viewports") == 5, "Viewports invariant must remain 5 in WALLS_4")
-	for i in range(4):
-		_expect(containers[i].visible, "WALLS_4 must show wall slot %d" % i)
-	_expect(not containers[4].visible, "WALLS_4 must hide Floor slot 4")
-
-	player.call("set_display_mode", 2)  # FLOOR_ONLY
-	for i in range(4):
-		_expect(not containers[i].visible, "FLOOR_ONLY must hide wall slot %d" % i)
-	_expect(containers[4].visible, "FLOOR_ONLY must show Floor slot 4")
+	var mode_matrix := [
+		[0, [0, 1, 2, 3, 4], "ALL_5"],
+		[1, [0, 1, 2, 3], "WALLS_4"],
+		[2, [4], "FLOOR_ONLY"],
+		[3, [0], "LEFT_ONLY"],
+		[4, [1], "CENTER_ONLY"],
+		[5, [2], "RIGHT_ONLY"],
+		[6, [3], "BACK_ONLY"],
+	]
+	for entry in mode_matrix:
+		var mode_id: int = entry[0]
+		var expected_slots: Array = entry[1]
+		var mode_name: String = entry[2]
+		player.call("set_display_mode", mode_id)
+		_expect(player.get("Viewports") == 5, "Viewports invariant must remain 5 in %s" % mode_name)
+		for i in range(5):
+			var should_show := i in expected_slots
+			_expect(
+				containers[i].visible == should_show,
+				"%s slot %d visibility was %s, expected %s" % [mode_name, i, containers[i].visible, should_show],
+			)
 
 	player.free()
 	return true
@@ -458,71 +494,101 @@ func _test_display_modes() -> bool:
 
 func _test_split_floor_sync() -> bool:
 	var host_state := JeopardyGameState.new()
-	var floor_state := JeopardyGameState.new()
-	floor_state.is_replica = true
+	var replica_state := JeopardyGameState.new()
+	replica_state.is_replica = true
 	root.add_child(host_state)
-	root.add_child(floor_state)
+	root.add_child(replica_state)
 	host_state.set_process(false)
-	floor_state.set_process(false)
+	replica_state.set_process(false)
 
 	var host_tx := RoomSyncTransport.new()
-	var floor_tx := RoomSyncTransport.new()
+	var replica_tx := RoomSyncTransport.new()
 	root.add_child(host_tx)
-	root.add_child(floor_tx)
-	host_tx.configure("walls", "test_room", "", false)
-	floor_tx.configure("floor", "test_room", "", false)
+	root.add_child(replica_tx)
+	host_tx.configure("center", "test_room", "", false)
+	replica_tx.configure("left", "test_room", "", false)
 
-	var delivered_to_floor: Array[int] = [0]
-	floor_tx.message_received.connect(func(_m: Dictionary) -> void: delivered_to_floor[0] += 1)
+	var delivered_to_replica: Array[int] = [0]
+	replica_tx.message_received.connect(func(_m: Dictionary) -> void: delivered_to_replica[0] += 1)
 
 	# Simulate dual-transport delivery (BroadcastChannel + WebSocket delivering same frame twice)
 	host_tx.message_sent_json.connect(func(raw: String) -> void:
-		floor_tx.inject_raw_for_test(raw)
-		floor_tx.inject_raw_for_test(raw)
+		replica_tx.inject_raw_for_test(raw)
+		replica_tx.inject_raw_for_test(raw)
 	)
-	floor_tx.message_sent_json.connect(func(raw: String) -> void:
+	replica_tx.message_sent_json.connect(func(raw: String) -> void:
 		host_tx.inject_raw_for_test(raw)
 		host_tx.inject_raw_for_test(raw)
 	)
 
 	var host_sync := GameStateSync.new()
-	var floor_sync := GameStateSync.new()
+	var replica_sync := GameStateSync.new()
 	root.add_child(host_sync)
-	root.add_child(floor_sync)
+	root.add_child(replica_sync)
 	host_sync.initialize(host_state, null, null, host_tx, true)
-	floor_sync.initialize(floor_state, null, null, floor_tx, false)
+	replica_sync.initialize(replica_state, null, null, replica_tx, false)
 	host_sync.set_process(false)
-	floor_sync.set_process(false)
+	replica_sync.set_process(false)
 
-	# 1. Host advances mid-game BEFORE floor connects, then floor sends hello
+	# 1. Host advances mid-game, replica sends hello & hydrates full state including clue text
 	host_state.set_team_count(3)
 	host_state.set_random_seed(42)
 	host_state.start_new_game()
 	host_state.select_tile(0, 0)
-	var before_hello: int = delivered_to_floor[0]
-	floor_sync.send_hello()
-	_expect(delivered_to_floor[0] == before_hello + 1, "Duplicate dual-transport delivery must deduplicate to 1")
-	_expect(floor_state.phase == PHASE.CLUE_ACTIVE, "Floor must hydrate CLUE_ACTIVE phase from host snapshot")
-	_expect(floor_state.teams.size() == 3, "Floor must hydrate all 3 teams from host snapshot")
-	_expect(floor_state.active_value == host_state.active_value, "Floor must hydrate active clue value")
+	var before_hello: int = delivered_to_replica[0]
+	replica_sync.send_hello()
+	_expect(delivered_to_replica[0] == before_hello + 1, "Duplicate dual-transport delivery must deduplicate to 1")
+	_expect(replica_state.phase == PHASE.CLUE_ACTIVE, "Replica must hydrate CLUE_ACTIVE phase from host snapshot")
+	_expect(replica_state.teams.size() == 3, "Replica must hydrate all 3 teams from host snapshot")
+	_expect(replica_state.active_value == host_state.active_value, "Replica must hydrate active clue value")
+	_expect(
+		str(replica_state.active_clue.get("clue", "")) == str(host_state.active_clue.get("clue", "")),
+		"Replica (Back wall) must reconstruct exact active clue text from shared pack",
+	)
 
-	# 2. Floor pad tap sends buzz_team command -> host updates active team -> syncs back to floor
-	floor_state.set_active_team(2)
-	_expect(host_state.active_team_index == 2, "Floor buzz_team command must update authoritative host team")
-	_expect(floor_state.active_team_index == 2, "Updated host team must replicate back to floor")
+	# 2. Replica commands from Left/Right/Back/Floor route cleanly to Center host and replicate back
+	replica_state.set_active_team(2)
+	_expect(host_state.active_team_index == 2, "Floor/Left buzz_team command must update authoritative host team")
+	_expect(replica_state.active_team_index == 2, "Updated host team must replicate back")
 
-	# 3. Host resolves clue -> floor receives updated score & phase
+	replica_state.toggle_play_mode()
+	_expect(
+		host_state.play_mode == PLAY_MODE.HOST and replica_state.play_mode == PLAY_MODE.HOST,
+		"Left mode toggle must sync",
+	)
+
+	replica_state.toggle_audio_mute()
+	_expect(host_state.audio_muted and replica_state.audio_muted, "Left mute toggle must sync to Center host and back")
+
+	var prev_timer := host_state.timer_remaining
+	replica_state.extend_timer(10.0)
+	_expect(host_state.timer_remaining > prev_timer, "Right +10s extend_timer must update host timer")
+
+	replica_state.cycle_active_team()
+	_expect(
+		host_state.active_team_index == 0 and replica_state.active_team_index == 0,
+		"Back cycle_active_team must sync",
+	)
+
+	# 3. Host resolves clue -> replica receives updated score, history chronicle & phase
 	var correct_idx := int(host_state.active_clue["correct_index"])
 	host_state.submit_choice(correct_idx)
-	_expect(floor_state.phase == PHASE.CLUE_RESULT, "Floor must mirror CLUE_RESULT phase")
-	_expect(int(floor_state.teams[2]["score"]) == host_state.active_value, "Floor must mirror updated team score")
+	_expect(replica_state.phase == PHASE.CLUE_RESULT, "Replica must mirror CLUE_RESULT phase")
+	_expect(int(replica_state.teams[0]["score"]) == host_state.active_value, "Replica must mirror updated team score")
+	_expect(replica_state.history.size() == 1, "Right wall Echoes Chronicle must sync history entries")
+
+	replica_state.continue_after_result()
+	_expect(
+		host_state.phase == PHASE.BOARD and replica_state.phase == PHASE.BOARD,
+		"Back continue must advance host & replica",
+	)
 
 	host_sync.free()
-	floor_sync.free()
+	replica_sync.free()
 	host_tx.free()
-	floor_tx.free()
+	replica_tx.free()
 	host_state.free()
-	floor_state.free()
+	replica_state.free()
 	return true
 
 
