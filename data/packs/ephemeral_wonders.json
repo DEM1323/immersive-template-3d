@@ -1,0 +1,377 @@
+{
+  "id": "ephemeral_wonders",
+  "title": "Ephemeral Wonders",
+  "subtitle": "Light, cosmos, ancient echoes & living marvels",
+  "accent_color": "#5ce1e6",
+  "timer_seconds": 25,
+  "categories": [
+    {
+      "name": "LIGHT & OPTICS",
+      "short_name": "LIGHT &\nOPTICS",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "This arc of colors appears when sunlight is refracted and reflected inside falling raindrops.",
+          "choices": [
+            "A mirage",
+            "An aurora",
+            "A rainbow",
+            "A sun halo"
+          ],
+          "correct_index": 2,
+          "answer": "What is a rainbow?",
+          "fact": "No two people see quite the same rainbow; each eye catches light from different drops."
+        },
+        {
+          "value": 400,
+          "clue": "In a vacuum, light covers roughly 300,000 of these units every single second.",
+          "choices": [
+            "Meters",
+            "Kilometers",
+            "Leagues",
+            "Miles"
+          ],
+          "correct_index": 1,
+          "answer": "What are kilometers?",
+          "fact": "Sunlight needs about 8 minutes and 20 seconds to reach Earth."
+        },
+        {
+          "value": 600,
+          "clue": "Light with wavelengths just shorter than violet, invisible to us, causes sunburn.",
+          "choices": [
+            "Microwave",
+            "Ultraviolet",
+            "Gamma rays",
+            "Infrared"
+          ],
+          "correct_index": 1,
+          "answer": "What is ultraviolet?",
+          "fact": "Bees and many birds can see ultraviolet patterns hidden from human eyes."
+        },
+        {
+          "value": 800,
+          "clue": "Named for a British physicist, this scattering of sunlight by air molecules makes the sky blue.",
+          "choices": [
+            "The Doppler effect",
+            "Mie scattering",
+            "The Raman effect",
+            "Rayleigh scattering"
+          ],
+          "correct_index": 3,
+          "answer": "What is Rayleigh scattering?",
+          "fact": "Short blue wavelengths scatter far more strongly in air than long red ones."
+        },
+        {
+          "value": 1000,
+          "clue": "This English polymath's double-slit experiment in the early 1800s showed light behaves as a wave.",
+          "choices": [
+            "Thomas Young",
+            "Isaac Newton",
+            "Robert Hooke",
+            "Michael Faraday"
+          ],
+          "correct_index": 0,
+          "answer": "Who is Thomas Young?",
+          "fact": "Bright and dark bands revealed light waves adding together and cancelling out."
+        }
+      ]
+    },
+    {
+      "name": "COSMIC ECHOES",
+      "short_name": "COSMIC\nECHOES",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "The star at the center of our solar system, it is also the closest star to Earth.",
+          "choices": [
+            "Polaris",
+            "Proxima Centauri",
+            "The Sun",
+            "Sirius"
+          ],
+          "correct_index": 2,
+          "answer": "What is the Sun?",
+          "fact": "The Sun holds about 99.8% of all the mass in our solar system."
+        },
+        {
+          "value": 400,
+          "clue": "The largest planet in our solar system, it hosts a giant storm called the Great Red Spot.",
+          "choices": [
+            "Neptune",
+            "Saturn",
+            "Jupiter",
+            "Mars"
+          ],
+          "correct_index": 2,
+          "answer": "What is Jupiter?",
+          "fact": "The Great Red Spot is a storm wider than the entire Earth."
+        },
+        {
+          "value": 600,
+          "clue": "About 2.5 million light-years away, this is the Milky Way's nearest large spiral galaxy.",
+          "choices": [
+            "Triangulum",
+            "Andromeda",
+            "Whirlpool",
+            "Sombrero"
+          ],
+          "correct_index": 1,
+          "answer": "What is the Andromeda Galaxy?",
+          "fact": "On a dark night, Andromeda glows to the naked eye as a faint, ancient smudge."
+        },
+        {
+          "value": 800,
+          "clue": "First reported in 1965, this faint afterglow of the Big Bang fills the whole sky with microwaves.",
+          "choices": [
+            "A gamma-ray burst",
+            "Cosmic microwave background",
+            "Solar wind",
+            "Dark energy"
+          ],
+          "correct_index": 1,
+          "answer": "What is the cosmic microwave background?",
+          "fact": "Its discoverers first suspected pigeons nesting in their antenna of causing the hiss."
+        },
+        {
+          "value": 1000,
+          "clue": "These spinning neutron stars, some rotating hundreds of times a second, sweep radio beams like lighthouses.",
+          "choices": [
+            "White dwarfs",
+            "Quasars",
+            "Red giants",
+            "Pulsars"
+          ],
+          "correct_index": 3,
+          "answer": "What are pulsars?",
+          "fact": "Jocelyn Bell Burnell spotted the first pulsar's steady ticking in 1967."
+        }
+      ]
+    },
+    {
+      "name": "ANCIENT MYSTERIES",
+      "short_name": "ANCIENT\nMYSTERIES",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "Near Cairo, it is the only one of the Seven Wonders of the Ancient World still standing.",
+          "choices": [
+            "Great Pyramid of Giza",
+            "Hanging Gardens",
+            "Lighthouse of Alexandria",
+            "Colossus of Rhodes"
+          ],
+          "correct_index": 0,
+          "answer": "What is the Great Pyramid of Giza?",
+          "fact": "It was the tallest human-made structure on Earth for nearly 3,800 years."
+        },
+        {
+          "value": 400,
+          "clue": "This prehistoric stone circle on England's Salisbury Plain aligns with the summer solstice sunrise.",
+          "choices": [
+            "Carnac stones",
+            "Stonehenge",
+            "Newgrange",
+            "Skara Brae"
+          ],
+          "correct_index": 1,
+          "answer": "What is Stonehenge?",
+          "fact": "Its smaller bluestones were hauled from Wales's Preseli Hills, about 140 miles away."
+        },
+        {
+          "value": 600,
+          "clue": "Found in 1799 and carved with the same decree in three scripts, it unlocked Egyptian hieroglyphs.",
+          "choices": [
+            "Narmer Palette",
+            "Moabite Stone",
+            "Behistun Inscription",
+            "Rosetta Stone"
+          ],
+          "correct_index": 3,
+          "answer": "What is the Rosetta Stone?",
+          "fact": "Jean-Francois Champollion announced his decipherment in 1822."
+        },
+        {
+          "value": 800,
+          "clue": "Hiram Bingham brought this Inca citadel high in Peru's Andes to world attention in 1911.",
+          "choices": [
+            "Machu Picchu",
+            "Teotihuacan",
+            "Chan Chan",
+            "Sacsayhuaman"
+          ],
+          "correct_index": 0,
+          "answer": "What is Machu Picchu?",
+          "fact": "Its mortarless stones fit so tightly that a knife blade cannot slip between them."
+        },
+        {
+          "value": 1000,
+          "clue": "Recovered from a Greek shipwreck in 1901, this bronze-geared device modeled the cycles of the heavens.",
+          "choices": [
+            "Phaistos Disc",
+            "Nebra sky disc",
+            "Antikythera mechanism",
+            "Baghdad Battery"
+          ],
+          "correct_index": 2,
+          "answer": "What is the Antikythera mechanism?",
+          "fact": "Often called the first analog computer, it predicted eclipses over 2,000 years ago."
+        }
+      ]
+    },
+    {
+      "name": "LIVING EARTH",
+      "short_name": "LIVING\nEARTH",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "Earth's largest living animal, this ocean giant can reach about 30 meters in length.",
+          "choices": [
+            "Sperm whale",
+            "Fin whale",
+            "Blue whale",
+            "Whale shark"
+          ],
+          "correct_index": 2,
+          "answer": "What is the blue whale?",
+          "fact": "Its low, haunting calls can travel hundreds of kilometers through the sea."
+        },
+        {
+          "value": 400,
+          "clue": "This process lets plants turn sunlight, water, and carbon dioxide into sugar and oxygen.",
+          "choices": [
+            "Photosynthesis",
+            "Transpiration",
+            "Respiration",
+            "Fermentation"
+          ],
+          "correct_index": 0,
+          "answer": "What is photosynthesis?",
+          "fact": "Ocean phytoplankton produce roughly half of the oxygen made on Earth."
+        },
+        {
+          "value": 600,
+          "clue": "The world's largest coral reef system, it stretches along the coast of Queensland, Australia.",
+          "choices": [
+            "Great Barrier Reef",
+            "Red Sea Coral Reef",
+            "Belize Barrier Reef",
+            "Ningaloo Reef"
+          ],
+          "correct_index": 0,
+          "answer": "What is the Great Barrier Reef?",
+          "fact": "Built from nearly 3,000 individual reefs, it can be seen from orbit."
+        },
+        {
+          "value": 800,
+          "clue": "Nicknamed the water bear, this microscopic animal can survive the vacuum of open space.",
+          "choices": [
+            "Rotifer",
+            "Copepod",
+            "Nematode",
+            "Tardigrade"
+          ],
+          "correct_index": 3,
+          "answer": "What is a tardigrade?",
+          "fact": "In 2007, tardigrades survived 10 days exposed to open space aboard a Russian satellite."
+        },
+        {
+          "value": 1000,
+          "clue": "These single-celled plankton make breaking waves sparkle electric blue on some nights.",
+          "choices": [
+            "Lichens",
+            "Sea sponges",
+            "Diatoms",
+            "Dinoflagellates"
+          ],
+          "correct_index": 3,
+          "answer": "What are dinoflagellates?",
+          "fact": "They flash when disturbed, likely to startle the creatures that would eat them."
+        }
+      ]
+    },
+    {
+      "name": "SOUND & TIME",
+      "short_name": "SOUND &\nTIME",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "Sound cannot travel through this empty region with no air, which is why space is silent.",
+          "choices": [
+            "A vacuum",
+            "Steel",
+            "Water",
+            "Ice"
+          ],
+          "correct_index": 0,
+          "answer": "What is a vacuum?",
+          "fact": "Sound moves about four times faster through water than through air."
+        },
+        {
+          "value": 400,
+          "clue": "This unit of frequency, named for a German physicist, equals one cycle per second.",
+          "choices": [
+            "Hertz",
+            "Watt",
+            "Joule",
+            "Decibel"
+          ],
+          "correct_index": 0,
+          "answer": "What is the hertz?",
+          "fact": "Human hearing spans roughly 20 to 20,000 hertz."
+        },
+        {
+          "value": 600,
+          "clue": "This ancient timekeeper tells the hour by the shadow its gnomon casts across a marked face.",
+          "choices": [
+            "Hourglass",
+            "Astrolabe",
+            "Sundial",
+            "Clepsydra"
+          ],
+          "correct_index": 2,
+          "answer": "What is a sundial?",
+          "fact": "Egyptian shadow clocks were tracking the hours more than 3,000 years ago."
+        },
+        {
+          "value": 800,
+          "clue": "In October 1947, Chuck Yeager's Bell X-1 became the first plane to officially break this in level flight.",
+          "choices": [
+            "The Karman line",
+            "The tropopause",
+            "The heat barrier",
+            "The sound barrier"
+          ],
+          "correct_index": 3,
+          "answer": "What is the sound barrier?",
+          "fact": "Yeager named his X-1 'Glamorous Glennis' after his wife."
+        },
+        {
+          "value": 1000,
+          "clue": "Atomic clocks define the second using about 9.19 billion oscillations tied to atoms of this element.",
+          "choices": [
+            "Hydrogen",
+            "Cesium",
+            "Rubidium",
+            "Strontium"
+          ],
+          "correct_index": 1,
+          "answer": "What is cesium?",
+          "fact": "One SI second is exactly 9,192,631,770 cycles of cesium-133 radiation."
+        }
+      ]
+    }
+  ],
+  "final_jeopardy": {
+    "category": "STARBORN ELEMENTS",
+    "clue": "Named for the Greek word for the Sun, this element was spotted in sunlight's spectrum in 1868 before it was found on Earth.",
+    "choices": [
+      "Selenium",
+      "Helium",
+      "Hydrogen",
+      "Neon"
+    ],
+    "correct_index": 1,
+    "answer": "What is helium?",
+    "fact": "William Ramsay finally isolated helium on Earth in 1895."
+  }
+}

@@ -1,0 +1,45 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://Player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scripts/jeopardy/ephemeral_jeopardy_controller.gd" id="2_ctrl"]
+[ext_resource type="Script" path="res://scripts/jeopardy/jeopardy_game_state.gd" id="3_state"]
+[ext_resource type="Script" path="res://scripts/jeopardy/audio_manager.gd" id="4_audio"]
+[ext_resource type="Script" path="res://scripts/jeopardy/sanctuary_environment.gd" id="5_env"]
+[ext_resource type="Script" path="res://scripts/jeopardy/center_wall_stage.gd" id="6_center"]
+[ext_resource type="Script" path="res://scripts/jeopardy/left_wall_stage.gd" id="7_left"]
+[ext_resource type="Script" path="res://scripts/jeopardy/right_wall_stage.gd" id="8_right"]
+[ext_resource type="Script" path="res://scripts/jeopardy/back_wall_stage.gd" id="9_back"]
+[ext_resource type="Script" path="res://scripts/jeopardy/floor_stage.gd" id="10_floor"]
+
+[node name="EphemeralJeopardyWorld" type="Node3D"]
+script = ExtResource("2_ctrl")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+
+[node name="JeopardyGameState" type="Node" parent="."]
+script = ExtResource("3_state")
+
+[node name="EphemeralAudioManager" type="Node" parent="."]
+script = ExtResource("4_audio")
+
+[node name="SanctuaryEnvironment" type="Node3D" parent="."]
+script = ExtResource("5_env")
+
+[node name="CenterWallStage" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4)
+script = ExtResource("6_center")
+
+[node name="LeftWallStage" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4, 1.5, 0)
+script = ExtResource("7_left")
+
+[node name="RightWallStage" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4, 1.5, 0)
+script = ExtResource("8_right")
+
+[node name="BackWallStage" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 4)
+script = ExtResource("9_back")
+
+[node name="FloorStage" type="Node3D" parent="."]
+script = ExtResource("10_floor")

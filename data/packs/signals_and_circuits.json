@@ -1,0 +1,377 @@
+{
+  "id": "signals_and_circuits",
+  "title": "Signals & Circuits",
+  "subtitle": "Computing, spaceflight, cinema, music & future tech",
+  "accent_color": "#b37aff",
+  "timer_seconds": 25,
+  "categories": [
+    {
+      "name": "COMPUTING LORE",
+      "short_name": "COMPUTING\nLORE",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "Using only the digits 0 and 1, this number system is the native language of computers.",
+          "choices": [
+            "Decimal",
+            "Binary",
+            "Octal",
+            "Hexadecimal"
+          ],
+          "correct_index": 1,
+          "answer": "What is binary?",
+          "fact": "Eight binary digits make up a single byte."
+        },
+        {
+          "value": 400,
+          "clue": "Ada Lovelace published what's considered the first algorithm for this proposed Charles Babbage machine.",
+          "choices": [
+            "Difference Engine",
+            "Jacquard loom",
+            "Enigma machine",
+            "Analytical Engine"
+          ],
+          "correct_index": 3,
+          "answer": "What is the Analytical Engine?",
+          "fact": "She imagined such machines might one day compose elaborate music."
+        },
+        {
+          "value": 600,
+          "clue": "This British mathematician proposed a test of machine intelligence in a famous 1950 paper.",
+          "choices": [
+            "Claude Shannon",
+            "John von Neumann",
+            "Alan Turing",
+            "Charles Babbage"
+          ],
+          "correct_index": 2,
+          "answer": "Who is Alan Turing?",
+          "fact": "Turing himself called his test 'the imitation game.'"
+        },
+        {
+          "value": 800,
+          "clue": "In 1947, operators taped a moth into the logbook as the first actual 'bug' found in this Harvard computer.",
+          "choices": [
+            "Harvard Mark II",
+            "UNIVAC I",
+            "ENIAC",
+            "Colossus"
+          ],
+          "correct_index": 0,
+          "answer": "What is the Harvard Mark II?",
+          "fact": "The logbook page, moth and all, is preserved at the Smithsonian."
+        },
+        {
+          "value": 1000,
+          "clue": "Founded in 1970, this Palo Alto lab pioneered the graphical user interface, Ethernet, and laser printing.",
+          "choices": [
+            "Bell Labs",
+            "Xerox PARC",
+            "SRI International",
+            "MIT Media Lab"
+          ],
+          "correct_index": 1,
+          "answer": "What is Xerox PARC?",
+          "fact": "A 1979 visit by Steve Jobs helped inspire the Apple Lisa and Macintosh."
+        }
+      ]
+    },
+    {
+      "name": "SPACEFLIGHT",
+      "short_name": "SPACEFLIGHT",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "In July 1969, Neil Armstrong became the first person to walk on this.",
+          "choices": [
+            "The Moon",
+            "Europa",
+            "Titan",
+            "Mars"
+          ],
+          "correct_index": 0,
+          "answer": "What is the Moon?",
+          "fact": "With no wind on the Moon, his bootprints could last for millions of years."
+        },
+        {
+          "value": 400,
+          "clue": "On April 12, 1961, this Soviet cosmonaut became the first human in space aboard Vostok 1.",
+          "choices": [
+            "Yuri Gagarin",
+            "Valentina Tereshkova",
+            "Gherman Titov",
+            "Alexei Leonov"
+          ],
+          "correct_index": 0,
+          "answer": "Who is Yuri Gagarin?",
+          "fact": "His single orbit of Earth lasted about 108 minutes."
+        },
+        {
+          "value": 600,
+          "clue": "Launched by the Soviet Union in October 1957, this was the first artificial satellite.",
+          "choices": [
+            "Vostok 1",
+            "Sputnik 1",
+            "Telstar 1",
+            "Explorer 1"
+          ],
+          "correct_index": 1,
+          "answer": "What is Sputnik 1?",
+          "fact": "Its simple radio beeps could be heard by amateur operators around the world."
+        },
+        {
+          "value": 800,
+          "clue": "Launched in 1990, this space telescope was serviced by astronauts in orbit five times.",
+          "choices": [
+            "Kepler",
+            "Spitzer",
+            "James Webb",
+            "Hubble"
+          ],
+          "correct_index": 3,
+          "answer": "What is the Hubble Space Telescope?",
+          "fact": "Corrective optics fixed its flawed main mirror on the first servicing mission in 1993."
+        },
+        {
+          "value": 1000,
+          "clue": "Launched in 1977, this NASA probe became the first human-made object to enter interstellar space in 2012.",
+          "choices": [
+            "New Horizons",
+            "Voyager 2",
+            "Voyager 1",
+            "Pioneer 10"
+          ],
+          "correct_index": 2,
+          "answer": "What is Voyager 1?",
+          "fact": "It carries a Golden Record of sounds and music from Earth."
+        }
+      ]
+    },
+    {
+      "name": "CINEMA & SCI-FI",
+      "short_name": "CINEMA &\nSCI-FI",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "In 'The Empire Strikes Back,' this Jedi Master tells Luke, 'Do or do not. There is no try.'",
+          "choices": [
+            "Mace Windu",
+            "Qui-Gon Jinn",
+            "Obi-Wan Kenobi",
+            "Yoda"
+          ],
+          "correct_index": 3,
+          "answer": "Who is Yoda?",
+          "fact": "Yoda made his first screen appearance in that 1980 film."
+        },
+        {
+          "value": 400,
+          "clue": "HAL 9000 is the calmly menacing shipboard computer in this 1968 Stanley Kubrick film.",
+          "choices": [
+            "Solaris",
+            "Blade Runner",
+            "2001: A Space Odyssey",
+            "Alien"
+          ],
+          "correct_index": 2,
+          "answer": "What is 2001: A Space Odyssey?",
+          "fact": "Kubrick co-wrote the screenplay with Arthur C. Clarke."
+        },
+        {
+          "value": 600,
+          "clue": "In 'The Matrix,' Neo swallows a pill of this color to learn the truth about reality.",
+          "choices": [
+            "Green",
+            "Blue",
+            "White",
+            "Red"
+          ],
+          "correct_index": 3,
+          "answer": "What is red?",
+          "fact": "'Taking the red pill' has become shorthand for facing an eye-opening truth."
+        },
+        {
+          "value": 800,
+          "clue": "Ridley Scott's 1982 film 'Blade Runner' is adapted from a novel by this science fiction author.",
+          "choices": [
+            "Isaac Asimov",
+            "Philip K. Dick",
+            "Ray Bradbury",
+            "William Gibson"
+          ],
+          "correct_index": 1,
+          "answer": "Who is Philip K. Dick?",
+          "fact": "The novel is titled 'Do Androids Dream of Electric Sheep?'"
+        },
+        {
+          "value": 1000,
+          "clue": "Fritz Lang directed this 1927 silent epic, featuring the robot Maria, about a city divided by class.",
+          "choices": [
+            "Metropolis",
+            "Things to Come",
+            "Nosferatu",
+            "The Cabinet of Dr. Caligari"
+          ],
+          "correct_index": 0,
+          "answer": "What is Metropolis?",
+          "fact": "Footage long thought lost was rediscovered in Buenos Aires in 2008."
+        }
+      ]
+    },
+    {
+      "name": "MUSIC & SYNTH",
+      "short_name": "MUSIC &\nSYNTH",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "This keyboard instrument has 88 keys in its standard modern form.",
+          "choices": [
+            "Pipe organ",
+            "Accordion",
+            "Piano",
+            "Harpsichord"
+          ],
+          "correct_index": 2,
+          "answer": "What is the piano?",
+          "fact": "Bartolomeo Cristofori invented the piano in Italy around 1700."
+        },
+        {
+          "value": 400,
+          "clue": "Introduced in 1983, this protocol lets synths and computers share notes; its acronym ends in 'Digital Interface.'",
+          "choices": [
+            "DMX",
+            "USB",
+            "MIDI",
+            "HDMI"
+          ],
+          "correct_index": 2,
+          "answer": "What is MIDI?",
+          "fact": "MIDI sends performance instructions, not recorded sound."
+        },
+        {
+          "value": 600,
+          "clue": "Played without being touched, this eerie electronic instrument uses two antennas and bears its inventor's name.",
+          "choices": [
+            "Clavioline",
+            "Theremin",
+            "Ondes Martenot",
+            "Mellotron"
+          ],
+          "correct_index": 1,
+          "answer": "What is the theremin?",
+          "fact": "Leon Theremin invented it around 1920 in Soviet Russia."
+        },
+        {
+          "value": 800,
+          "clue": "Released in 1970, this compact Moog synthesizer with a built-in keyboard became a stage favorite.",
+          "choices": [
+            "Yamaha DX7",
+            "ARP Odyssey",
+            "Prophet-5",
+            "Minimoog"
+          ],
+          "correct_index": 3,
+          "answer": "What is the Minimoog?",
+          "fact": "Its portability helped carry synthesizers out of the studio and onto the stage."
+        },
+        {
+          "value": 1000,
+          "clue": "This Japanese company's 1980 TR-808 drum machine became a heartbeat of hip-hop and electronic music.",
+          "choices": [
+            "Roland",
+            "Korg",
+            "Yamaha",
+            "Casio"
+          ],
+          "correct_index": 0,
+          "answer": "What is Roland?",
+          "fact": "About 12,000 TR-808s were built before production ended in 1983."
+        }
+      ]
+    },
+    {
+      "name": "FUTURE TECH",
+      "short_name": "FUTURE\nTECH",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "Unlike fully immersive VR, this technology overlays digital images onto your view of the real world.",
+          "choices": [
+            "Augmented reality",
+            "Holography",
+            "Motion capture",
+            "Telepresence"
+          ],
+          "correct_index": 0,
+          "answer": "What is augmented reality?",
+          "fact": "Many AR apps need nothing more than a smartphone's camera and screen."
+        },
+        {
+          "value": 400,
+          "clue": "Quantum computers process information with these units, which can be in a superposition of 0 and 1.",
+          "choices": [
+            "Pixels",
+            "Qubits",
+            "Transistors",
+            "Bytes"
+          ],
+          "correct_index": 1,
+          "answer": "What are qubits?",
+          "fact": "Many quantum chips must be chilled close to absolute zero to work."
+        },
+        {
+          "value": 600,
+          "clue": "Also called additive manufacturing, this process builds objects layer by layer from a digital model.",
+          "choices": [
+            "Laser etching",
+            "CNC milling",
+            "Injection molding",
+            "3D printing"
+          ],
+          "correct_index": 3,
+          "answer": "What is 3D printing?",
+          "fact": "Engineers have 3D printed rocket engine parts and even entire homes."
+        },
+        {
+          "value": 800,
+          "clue": "Adapted from a bacterial defense system, this gene-editing tool won Doudna and Charpentier a 2020 Nobel.",
+          "choices": [
+            "RNA interference",
+            "CRISPR-Cas9",
+            "DNA sequencing",
+            "PCR"
+          ],
+          "correct_index": 1,
+          "answer": "What is CRISPR-Cas9?",
+          "fact": "Bacteria use CRISPR to remember and snip the DNA of invading viruses."
+        },
+        {
+          "value": 1000,
+          "clue": "ITER is one of these doughnut-shaped fusion reactors that confine superhot plasma with magnetic fields.",
+          "choices": [
+            "Cyclotron",
+            "Stellarator",
+            "Tokamak",
+            "Breeder reactor"
+          ],
+          "correct_index": 2,
+          "answer": "What is a tokamak?",
+          "fact": "The name is a Russian acronym for a toroidal chamber with magnetic coils."
+        }
+      ]
+    }
+  ],
+  "final_jeopardy": {
+    "category": "DIGITAL ORIGINS",
+    "clue": "On October 29, 1969, the first message sent over this Pentagon-funded network crashed after just two letters: 'LO.'",
+    "choices": [
+      "ARPANET",
+      "World Wide Web",
+      "Usenet",
+      "Ethernet"
+    ],
+    "correct_index": 0,
+    "answer": "What is ARPANET?",
+    "fact": "The intended word was 'LOGIN,' sent from UCLA to the Stanford Research Institute."
+  }
+}

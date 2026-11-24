@@ -1,0 +1,20 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Build outputs (published separately to the gh-pages branch via tools/godot_dev.ps1 deploy-pages)
+exports/
+tools/screenshots/
+
+# Python / editor temp files
+**/__pycache__/
+*.tmp
+
+# Legacy root HTML5 export artifacts
+Immersive_Template_3D.wasm
+Immersive_Template_3D.pck
+Immersive_Template_3D.js
+Immersive_Template_3D.html
+Immersive_Template_3D.audio*.js
+Immersive_Template_3D*.png
+Immersive_Template_3D*.import

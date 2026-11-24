@@ -1,0 +1,10 @@
+max-line-length: 120
+max-file-lines: 1200
+max-returns: 10
+max-public-methods: 45
+function-arguments-number: 10
+disable:
+  - class-definitions-order
+  - unused-argument
+  - no-elif-return
+  - no-else-return

@@ -1,0 +1,377 @@
+{
+  "id": "atlas_of_ideas",
+  "title": "Atlas of Ideas",
+  "subtitle": "World landmarks, breakthroughs, myth & art",
+  "accent_color": "#f6c453",
+  "timer_seconds": 25,
+  "categories": [
+    {
+      "name": "WORLD LANDMARKS",
+      "short_name": "WORLD\nLANDMARKS",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "This wrought-iron lattice tower was built for the 1889 World's Fair in Paris.",
+          "choices": [
+            "Eiffel Tower",
+            "CN Tower",
+            "Tokyo Tower",
+            "Blackpool Tower"
+          ],
+          "correct_index": 0,
+          "answer": "What is the Eiffel Tower?",
+          "fact": "Summer heat can make the tower grow up to about 15 centimeters taller."
+        },
+        {
+          "value": 400,
+          "clue": "A gift from France, this copper colossus has stood in New York Harbor since 1886.",
+          "choices": [
+            "The Motherland Calls",
+            "Statue of Liberty",
+            "Colossus of Rhodes",
+            "Christ the Redeemer"
+          ],
+          "correct_index": 1,
+          "answer": "What is the Statue of Liberty?",
+          "fact": "Its soft green color is a patina that formed as the copper skin weathered."
+        },
+        {
+          "value": 600,
+          "clue": "Shah Jahan commissioned this white marble mausoleum in Agra for his wife Mumtaz Mahal.",
+          "choices": [
+            "Humayun's Tomb",
+            "Red Fort",
+            "Taj Mahal",
+            "Jama Masjid"
+          ],
+          "correct_index": 2,
+          "answer": "What is the Taj Mahal?",
+          "fact": "Its marble seems to shift from rosy pink at dawn to glowing white by moonlight."
+        },
+        {
+          "value": 800,
+          "clue": "Carved into rose-red sandstone cliffs, this ancient city is Jordan's most famous archaeological site.",
+          "choices": [
+            "Petra",
+            "Palmyra",
+            "Jerash",
+            "Persepolis"
+          ],
+          "correct_index": 0,
+          "answer": "What is Petra?",
+          "fact": "Petra was the capital of the Nabataean kingdom more than 2,000 years ago."
+        },
+        {
+          "value": 1000,
+          "clue": "Built as a Hindu temple, this Cambodian complex is the largest religious monument in the world.",
+          "choices": [
+            "Prambanan",
+            "Borobudur",
+            "Angkor Wat",
+            "Bagan"
+          ],
+          "correct_index": 2,
+          "answer": "What is Angkor Wat?",
+          "fact": "Its silhouette appears on Cambodia's national flag."
+        }
+      ]
+    },
+    {
+      "name": "INVENTIONS",
+      "short_name": "INVENTIONS",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "Johannes Gutenberg's movable-type version of this machine, around 1440, transformed how books spread.",
+          "choices": [
+            "Typewriter",
+            "Printing press",
+            "Telegraph",
+            "Paper mill"
+          ],
+          "correct_index": 1,
+          "answer": "What is the printing press?",
+          "fact": "His famous Gutenberg Bible was printed in the 1450s."
+        },
+        {
+          "value": 400,
+          "clue": "Alexander Graham Bell received a U.S. patent for this device in 1876.",
+          "choices": [
+            "Phonograph",
+            "Telephone",
+            "Telegraph",
+            "Radio"
+          ],
+          "correct_index": 1,
+          "answer": "What is the telephone?",
+          "fact": "Bell's first words on it were reportedly 'Mr. Watson, come here.'"
+        },
+        {
+          "value": 600,
+          "clue": "Alexander Fleming discovered this mold-made antibiotic in 1928 after returning from a holiday.",
+          "choices": [
+            "Penicillin",
+            "Streptomycin",
+            "Insulin",
+            "Aspirin"
+          ],
+          "correct_index": 0,
+          "answer": "What is penicillin?",
+          "fact": "Mass production during World War II saved countless lives."
+        },
+        {
+          "value": 800,
+          "clue": "The Wright brothers made the first powered airplane flights in 1903 near this North Carolina town.",
+          "choices": [
+            "Kitty Hawk",
+            "Dayton",
+            "Cape Hatteras",
+            "Raleigh"
+          ],
+          "correct_index": 0,
+          "answer": "What is Kitty Hawk?",
+          "fact": "Orville's first flight lasted 12 seconds and covered 120 feet."
+        },
+        {
+          "value": 1000,
+          "clue": "A unit of power honors this Scottish inventor, whose steam engine improvements fueled the Industrial Revolution.",
+          "choices": [
+            "George Stephenson",
+            "Thomas Newcomen",
+            "Richard Trevithick",
+            "James Watt"
+          ],
+          "correct_index": 3,
+          "answer": "Who is James Watt?",
+          "fact": "His separate condenser made steam engines far more fuel-efficient."
+        }
+      ]
+    },
+    {
+      "name": "MYTH & LEGEND",
+      "short_name": "MYTH &\nLEGEND",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "In Greek myth, this winged horse sprang from the blood of the slain Gorgon Medusa.",
+          "choices": [
+            "Pegasus",
+            "Sleipnir",
+            "Chiron",
+            "Arion"
+          ],
+          "correct_index": 0,
+          "answer": "What is Pegasus?",
+          "fact": "Pegasus still gallops across the night sky as a constellation."
+        },
+        {
+          "value": 400,
+          "clue": "This Norse god of thunder wields the mighty hammer Mjolnir.",
+          "choices": [
+            "Odin",
+            "Thor",
+            "Loki",
+            "Tyr"
+          ],
+          "correct_index": 1,
+          "answer": "Who is Thor?",
+          "fact": "Thursday, 'Thor's day,' is named after him."
+        },
+        {
+          "value": 600,
+          "clue": "After the Trojan War, this Greek hero spent ten long years sailing home to Ithaca.",
+          "choices": [
+            "Achilles",
+            "Jason",
+            "Aeneas",
+            "Odysseus"
+          ],
+          "correct_index": 3,
+          "answer": "Who is Odysseus?",
+          "fact": "Homer's 'Odyssey' tells the tale of his long voyage home."
+        },
+        {
+          "value": 800,
+          "clue": "This Titan of Greek myth stole fire from the gods and gave it to humankind.",
+          "choices": [
+            "Epimetheus",
+            "Atlas",
+            "Cronus",
+            "Prometheus"
+          ],
+          "correct_index": 3,
+          "answer": "Who is Prometheus?",
+          "fact": "As punishment, an eagle devoured his ever-regrowing liver each day."
+        },
+        {
+          "value": 1000,
+          "clue": "In ancient Egyptian belief, a dead person's heart was weighed against the feather of this goddess of truth.",
+          "choices": [
+            "Hathor",
+            "Bastet",
+            "Isis",
+            "Ma'at"
+          ],
+          "correct_index": 3,
+          "answer": "Who is Ma'at?",
+          "fact": "A heart heavier than the feather was devoured by the beast Ammit."
+        }
+      ]
+    },
+    {
+      "name": "HUMAN BODY",
+      "short_name": "HUMAN\nBODY",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "The largest organ of the human body, it covers you from head to toe.",
+          "choices": [
+            "Liver",
+            "Brain",
+            "Skin",
+            "Lungs"
+          ],
+          "correct_index": 2,
+          "answer": "What is the skin?",
+          "fact": "You shed tens of thousands of skin cells every minute."
+        },
+        {
+          "value": 400,
+          "clue": "A typical adult human skeleton contains this many bones.",
+          "choices": [
+            "212",
+            "196",
+            "230",
+            "206"
+          ],
+          "correct_index": 3,
+          "answer": "What is 206?",
+          "fact": "Babies are born with roughly 270 to 300 bones, many of which later fuse."
+        },
+        {
+          "value": 600,
+          "clue": "The stapes, the smallest bone in the human body, is found in this part of the head.",
+          "choices": [
+            "The jaw",
+            "The nose",
+            "The ear",
+            "The eye socket"
+          ],
+          "correct_index": 2,
+          "answer": "What is the ear?",
+          "fact": "The stapes is about the size of a grain of rice."
+        },
+        {
+          "value": 800,
+          "clue": "This butterfly-shaped gland in the front of the neck helps regulate metabolism.",
+          "choices": [
+            "Adrenal",
+            "Thymus",
+            "Thyroid",
+            "Pituitary"
+          ],
+          "correct_index": 2,
+          "answer": "What is the thyroid?",
+          "fact": "It needs iodine from the diet to make its hormones."
+        },
+        {
+          "value": 1000,
+          "clue": "The hippocampus, a brain region vital to memory, is named for this curled sea creature.",
+          "choices": [
+            "Seahorse",
+            "Sea snail",
+            "Octopus",
+            "Nautilus"
+          ],
+          "correct_index": 0,
+          "answer": "What is a seahorse?",
+          "fact": "The name comes from Greek words meaning 'horse' and 'sea monster.'"
+        }
+      ]
+    },
+    {
+      "name": "ART & DESIGN",
+      "short_name": "ART &\nDESIGN",
+      "clues": [
+        {
+          "value": 200,
+          "clue": "Leonardo da Vinci painted this enigmatically smiling portrait, now displayed at the Louvre.",
+          "choices": [
+            "Girl with a Pearl Earring",
+            "The Birth of Venus",
+            "Mona Lisa",
+            "The Arnolfini Portrait"
+          ],
+          "correct_index": 2,
+          "answer": "What is the Mona Lisa?",
+          "fact": "It was stolen in 1911 and stayed missing for more than two years."
+        },
+        {
+          "value": 400,
+          "clue": "Vincent van Gogh painted this swirling night sky from his asylum window in Saint-Remy in 1889.",
+          "choices": [
+            "The Starry Night",
+            "Sunflowers",
+            "Cafe Terrace at Night",
+            "Irises"
+          ],
+          "correct_index": 0,
+          "answer": "What is The Starry Night?",
+          "fact": "It now hangs at the Museum of Modern Art in New York."
+        },
+        {
+          "value": 600,
+          "clue": "This Spanish artist co-founded Cubism and painted the anti-war masterpiece 'Guernica' in 1937.",
+          "choices": [
+            "Salvador Dali",
+            "Pablo Picasso",
+            "Joan Miro",
+            "Georges Braque"
+          ],
+          "correct_index": 1,
+          "answer": "Who is Pablo Picasso?",
+          "fact": "Guernica mourns the bombing of a Basque town during the Spanish Civil War."
+        },
+        {
+          "value": 800,
+          "clue": "Hokusai's most famous woodblock print shows this towering wave curling over boats near Mount Fuji.",
+          "choices": [
+            "Rain at Shono",
+            "The Great Wave off Kanagawa",
+            "Plum Park in Kameido",
+            "Fine Wind, Clear Morning"
+          ],
+          "correct_index": 1,
+          "answer": "What is The Great Wave off Kanagawa?",
+          "fact": "It belongs to his series 'Thirty-Six Views of Mount Fuji.'"
+        },
+        {
+          "value": 1000,
+          "clue": "Founded by Walter Gropius in 1919, this German school fused fine art, craft, and modern industrial design.",
+          "choices": [
+            "De Stijl",
+            "Bauhaus",
+            "Arts and Crafts",
+            "Art Nouveau"
+          ],
+          "correct_index": 1,
+          "answer": "What is the Bauhaus?",
+          "fact": "Under Nazi pressure, the school closed its doors in 1933."
+        }
+      ]
+    }
+  ],
+  "final_jeopardy": {
+    "category": "ANCIENT ENGINEERING",
+    "clue": "Dedicated around 126 AD, this Roman temple still boasts the world's largest unreinforced concrete dome.",
+    "choices": [
+      "Parthenon",
+      "Colosseum",
+      "Hagia Sophia",
+      "Pantheon"
+    ],
+    "correct_index": 3,
+    "answer": "What is the Pantheon?",
+    "fact": "An open oculus at the dome's crown lets in sunlight and rain alike."
+  }
+}
